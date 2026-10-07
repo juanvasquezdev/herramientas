@@ -10,8 +10,9 @@
 
 .cabecera {
   margin-bottom: 8px;
-  font-size: 0.75rem;
-  letter-spacing: 0.4px;
+  font-size: 0.6875rem;
+  font-family: var(--f-mono);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--texto-suave);
 }
@@ -25,7 +26,8 @@
   display: none;
   margin-bottom: 2px;
   font-size: 0.6875rem;
-  letter-spacing: 0.4px;
+  font-family: var(--f-mono);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--texto-suave);
 }
@@ -63,9 +65,11 @@
   font-variant-numeric: tabular-nums;
 }
 
-.impuesto {
+/* El campo del impuesto va dentro del renglón de totales: más bajo que un campo normal. */
+input.impuesto {
   width: 72px;
-  padding: 4px 6px;
+  height: 34px;
+  padding: 4px 8px;
   text-align: right;
 }
 
@@ -73,8 +77,15 @@
   margin-top: 8px;
   padding-top: 10px;
   border-top: 2px solid var(--texto);
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 700;
+}
+
+.totales > .granTotal dd {
+  font-family: var(--f-titulo);
+  font-size: 1.625rem;
+  font-stretch: 75%;
+  line-height: 1.1;
 }
 
 /* En celular cada ítem pasa a ser un bloque: descripción arriba, números abajo. */

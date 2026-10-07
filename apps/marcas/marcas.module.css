@@ -8,8 +8,9 @@
 
 .cabecera {
   margin-bottom: 8px;
-  font-size: 0.75rem;
-  letter-spacing: 0.4px;
+  font-size: 0.6875rem;
+  font-family: var(--f-mono);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--texto-suave);
 }
