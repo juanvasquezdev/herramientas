@@ -8,6 +8,10 @@ coverage
 *.log
 .vercel
 
+# Lo que dejan las pruebas de punta a punta.
+test-results
+playwright-report
+
 # Herramientas que todavía no pasan al sitio y copias de las versiones viejas.
 # Se quedan en mi equipo hasta que estén pulidas.
 _pendientes/
