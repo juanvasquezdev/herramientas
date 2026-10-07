@@ -1,0 +1,88 @@
+.entregable {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px 32px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.presupuesto {
+  max-width: 260px;
+  margin-bottom: 18px;
+}
+
+.cabeceraPagos,
+.pago {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 84px 140px 32px;
+  gap: 8px;
+  align-items: center;
+}
+
+.cabeceraPagos {
+  margin-bottom: 8px;
+  font-size: 0.75rem;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.pago {
+  margin-bottom: 8px;
+}
+
+.derecha,
+.valor {
+  text-align: right;
+}
+
+.valor {
+  padding-right: 4px;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.aviso {
+  margin-top: 14px;
+}
+
+.nota {
+  margin: 10px 0 0;
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+@media (max-width: 640px) {
+  .entregable {
+    grid-template-columns: minmax(0, 1fr) 96px 32px;
+  }
+
+  .cabeceraPagos {
+    display: none;
+  }
+
+  /* El valor baja a su propio renglón para que el concepto tenga espacio. */
+  .pago {
+    grid-template-columns: minmax(0, 1fr) 64px 32px;
+    grid-template-areas:
+      'concepto porcentaje quitar'
+      'valor valor .';
+    margin-bottom: 12px;
+  }
+
+  .pago > :nth-child(1) {
+    grid-area: concepto;
+  }
+
+  .pago > :nth-child(2) {
+    grid-area: porcentaje;
+  }
+
+  .valor {
+    grid-area: valor;
+  }
+
+  .pago > :nth-child(4) {
+    grid-area: quitar;
+  }
+}
