@@ -1,0 +1,131 @@
+/* Estilos del cascarón del sitio: inicio, barra de cada herramienta y página de "no existe". */
+
+.pagina {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 56px 20px 48px;
+}
+
+.cabecera {
+  margin-bottom: 40px;
+}
+
+.titulo {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 2.25rem;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+.entrada {
+  max-width: 58ch;
+  margin: 10px 0 0;
+  color: var(--texto-medio);
+}
+
+.entrada a,
+.pie a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
+
+.grupo {
+  margin-bottom: 32px;
+}
+
+.categoria {
+  margin: 0 0 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ficha {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 18px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+
+.ficha:hover {
+  border-color: var(--texto);
+}
+
+.nombre {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+}
+
+.resumen {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--texto-medio);
+}
+
+.abrir {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.pie {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-top: 56px;
+  padding-top: 16px;
+  border-top: 1px solid var(--borde);
+  font-size: 0.8125rem;
+  color: var(--texto-suave);
+}
+
+/* ---------- Dentro de una herramienta ---------- */
+
+.barra {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 16px 20px 0;
+}
+
+.volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  color: var(--texto-suave);
+  text-decoration: none;
+}
+
+.volver:hover {
+  color: var(--texto);
+}
+
+.cargando {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 28px 20px;
+  color: var(--texto-suave);
+}
