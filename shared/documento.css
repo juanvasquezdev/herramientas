@@ -4,8 +4,8 @@
 */
 
 .doc {
-  font-family: var(--serif);
-  font-size: 14px;
+  font-family: var(--f-texto);
+  font-size: 13.5px;
   line-height: 1.45;
   color: #1a1a1a;
 }
@@ -26,9 +26,12 @@
 
 /* El nombre de quien emite el documento. */
 .doc-marca {
-  font-size: 28px;
-  line-height: 1.2;
-  letter-spacing: 0.5px;
+  font-family: var(--f-titulo);
+  font-size: 32px;
+  font-stretch: 70%;
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
 }
 
 .doc-derecha {
@@ -37,8 +40,10 @@
 
 /* COTIZACIÓN, PROPUESTA DE SERVICIOS... */
 .doc-tipo {
-  font-size: 20px;
-  font-weight: bold;
+  font-family: var(--f-titulo);
+  font-size: 22px;
+  font-stretch: 75%;
+  font-weight: 700;
 }
 
 .doc-suave {
@@ -58,7 +63,7 @@
   margin: 26px 0 8px;
   padding-bottom: 4px;
   border-bottom: 1px solid #e5e5e5;
-  font-family: var(--sans);
+  font-family: var(--f-mono);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.6px;
@@ -155,18 +160,20 @@
   flex: 1;
   padding: 12px;
   border: 1px solid #ddd;
-  border-radius: 6px;
+  border-radius: 10px;
   text-align: center;
   break-inside: avoid;
 }
 
 .doc-cifra strong {
   display: block;
-  font-size: 20px;
+  font-family: var(--f-titulo);
+  font-size: 24px;
+  font-stretch: 75%;
 }
 
 .doc-cifra span {
-  font-family: var(--sans);
+  font-family: var(--f-mono);
   font-size: 10px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
