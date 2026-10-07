@@ -1,0 +1,296 @@
+/* Estilos de los gráficos de shared/graficos.tsx. Prefijo gr-. */
+
+.gr-figura {
+  margin: 0;
+  min-width: 0;
+}
+
+.gr-lienzo {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+/* max-width evita que el SVG, que se dibuja con un ancho en píxeles, ensanche su contenedor. */
+.gr-lienzo svg {
+  display: block;
+  max-width: 100%;
+  overflow: visible;
+}
+
+/* Rejilla y ejes: líneas finas, continuas y de un tono cercano al fondo. */
+.gr-rejilla {
+  stroke: var(--rejilla);
+  stroke-width: 1;
+}
+
+.gr-eje {
+  stroke: var(--eje);
+  stroke-width: 1;
+}
+
+/* El texto nunca lleva el color de la serie: siempre tinta. */
+.gr-marca {
+  fill: var(--texto-suave);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.gr-valor {
+  fill: var(--texto);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.gr-columna,
+.gr-barra {
+  fill: var(--serie-1);
+  background: var(--serie-1);
+}
+
+.gr-apagada {
+  fill: var(--serie-apagada);
+  background: var(--serie-apagada);
+}
+
+.gr-linea {
+  fill: none;
+  stroke: var(--serie-1);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+/* El aro blanco separa el punto de la línea que lo cruza. */
+.gr-punto {
+  fill: var(--serie-1);
+  stroke: var(--superficie);
+  stroke-width: 2;
+}
+
+.gr-punto-destacado {
+  fill: var(--texto);
+}
+
+.gr-marca-interactiva {
+  outline: none;
+}
+
+.gr-marca-interactiva:hover .gr-columna,
+.gr-marca-interactiva:focus-visible .gr-columna {
+  filter: brightness(1.12);
+}
+
+.gr-marca-interactiva:focus-visible {
+  outline: 2px solid var(--foco);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.gr-globo {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 6px 10px;
+  background: var(--texto);
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.gr-globo strong {
+  font-size: 0.875rem;
+}
+
+.gr-globo span {
+  opacity: 0.8;
+}
+
+/* ---------- Tabla con los mismos datos ---------- */
+
+.gr-detalle {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+.gr-detalle summary {
+  width: fit-content;
+  cursor: pointer;
+}
+
+.gr-tabla {
+  width: 100%;
+  max-width: 360px;
+  margin-top: 8px;
+  border-collapse: collapse;
+  color: var(--texto);
+}
+
+.gr-tabla th,
+.gr-tabla td {
+  padding: 4px 8px 4px 0;
+  border-bottom: 1px solid var(--rejilla);
+  text-align: left;
+}
+
+.gr-tabla th {
+  font-weight: 600;
+}
+
+.gr-tabla td:last-child,
+.gr-tabla th:last-child {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Partes de un total ---------- */
+
+.gr-partes {
+  display: flex;
+  gap: 2px; /* el hueco separa los tramos; no se les dibuja borde */
+  height: 14px;
+}
+
+.gr-parte {
+  min-width: 3px;
+  flex-basis: 0;
+}
+
+.gr-parte:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.gr-parte:last-child {
+  border-radius: 0 4px 4px 0;
+}
+
+.gr-parte:only-child {
+  border-radius: 4px;
+}
+
+.gr-serie-1 {
+  background: var(--serie-1);
+}
+
+.gr-serie-2 {
+  background: var(--serie-2);
+}
+
+.gr-serie-3 {
+  background: var(--serie-3);
+}
+
+.gr-serie-4 {
+  background: var(--serie-4);
+}
+
+.gr-leyenda {
+  display: grid;
+  gap: 6px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8125rem;
+}
+
+.gr-leyenda li {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto 44px;
+  align-items: center;
+  gap: 8px;
+}
+
+.gr-muestra {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.gr-leyenda-nombre {
+  color: var(--texto-medio);
+}
+
+.gr-leyenda strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.gr-leyenda-porcentaje {
+  text-align: right;
+  color: var(--texto-suave);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Barras horizontales ---------- */
+
+.gr-barras {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8125rem;
+}
+
+.gr-barras li {
+  display: grid;
+  grid-template-columns: minmax(90px, 150px) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.gr-barras-nombre {
+  color: var(--texto-medio);
+}
+
+.gr-pista {
+  display: block;
+  height: 10px;
+}
+
+.gr-barra {
+  display: block;
+  height: 100%;
+  min-width: 2px;
+  border-radius: 0 4px 4px 0;
+}
+
+.gr-barras-valor {
+  min-width: 64px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* En celular la barra baja a su propio renglón para que no la aplasten el nombre y el valor. */
+@media (max-width: 640px) {
+  .gr-barras li {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'nombre valor'
+      'pista pista';
+    gap: 4px 10px;
+  }
+
+  .gr-barras-nombre {
+    grid-area: nombre;
+  }
+
+  .gr-barras-valor {
+    grid-area: valor;
+  }
+
+  .gr-pista {
+    grid-area: pista;
+  }
+}
+
+@media print {
+  .gr-detalle,
+  .gr-globo {
+    display: none;
+  }
+}

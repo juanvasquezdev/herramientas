@@ -1,9 +1,15 @@
+import { type Almacen, leer } from '../../shared/almacen'
+import { siguienteNumero } from '../../shared/consecutivo'
 import { hoyISO } from '../../shared/fecha'
 import { nuevoId } from '../../shared/id'
+import { esListaDe, esObjeto, tieneTextos } from '../../shared/validar'
 
 /**
  * La forma de una cotización y cómo se crea, se reinicia y se valida.
  * Las cuentas de plata están aparte, en calculo.ts.
+ *
+ * Los datos de "tu empresa" no van aquí: viven en shared/perfil.ts porque también los
+ * usa la propuesta.
  */
 
 export interface Item {
@@ -14,12 +20,6 @@ export interface Item {
   precio: string
 }
 
-export interface Empresa {
-  nombre: string
-  contacto: string
-  telefono: string
-}
-
 export interface Cliente {
   nombre: string
   empresa: string
@@ -27,7 +27,6 @@ export interface Cliente {
 }
 
 export interface Cotizacion {
-  empresa: Empresa
   cliente: Cliente
   numero: string
   fecha: string
@@ -37,7 +36,9 @@ export interface Cotizacion {
   notas: string
 }
 
-export const CLAVE_GUARDADO = 'herramientas:cotizador:v1'
+// v2: los datos de la empresa salieron de la cotización y pasaron al perfil compartido.
+export const CLAVE_GUARDADO = 'herramientas:cotizador:v2'
+const CLAVE_V1 = 'herramientas:cotizador:v1'
 
 export function itemVacio(): Item {
   return { id: nuevoId(), descripcion: '', cantidad: '1', precio: '' }
@@ -45,53 +46,29 @@ export function itemVacio(): Item {
 
 export function cotizacionInicial(hoy: string = hoyISO()): Cotizacion {
   return {
-    empresa: { nombre: '', contacto: '', telefono: '' },
     cliente: { nombre: '', empresa: '', email: '' },
     numero: 'COT-0001',
     fecha: hoy,
     validez: '15',
     items: [itemVacio()],
     impuesto: '19',
-    notas: 'Precios sujetos a cambio sin previo aviso. Pago: 50 % de anticipo y 50 % contra entrega.',
+    notas:
+      'Precios sujetos a cambio sin previo aviso. Pago: 50 % de anticipo y 50 % contra entrega.',
   }
 }
 
 /**
- * Sube en uno el consecutivo y respeta los ceros: COT-0001 -> COT-0002, COT-0999 -> COT-1000.
- * Si el número no termina en dígitos, le agrega "-2".
- */
-export function siguienteNumero(numero: string): string {
-  const limpio = numero.trim()
-  if (limpio === '') return 'COT-0001'
-
-  const partes = /^(.*?)(\d+)$/.exec(limpio)
-  if (!partes) return `${limpio}-2`
-
-  const [, prefijo = '', digitos = ''] = partes
-  const siguiente = String(Number(digitos) + 1).padStart(digitos.length, '0')
-  return `${prefijo}${siguiente}`
-}
-
-/**
- * Empieza una cotización nueva a partir de la anterior: se quedan los datos de mi empresa,
- * el impuesto, la validez y las notas (casi nunca cambian), y se limpian el cliente y los ítems.
+ * Empieza una cotización nueva a partir de la anterior: se quedan el impuesto, la validez
+ * y las notas (casi nunca cambian), y se limpian el cliente y los ítems.
  */
 export function nuevaCotizacion(anterior: Cotizacion, hoy: string = hoyISO()): Cotizacion {
   return {
     ...anterior,
     cliente: { nombre: '', empresa: '', email: '' },
-    numero: siguienteNumero(anterior.numero),
+    numero: siguienteNumero(anterior.numero, 'COT-0001'),
     fecha: hoy,
     items: [itemVacio()],
   }
-}
-
-function esObjeto(dato: unknown): dato is Record<string, unknown> {
-  return typeof dato === 'object' && dato !== null
-}
-
-function tieneTextos(dato: unknown, campos: string[]): boolean {
-  return esObjeto(dato) && campos.every((campo) => typeof dato[campo] === 'string')
 }
 
 /**
@@ -101,13 +78,23 @@ function tieneTextos(dato: unknown, campos: string[]): boolean {
 export function esCotizacion(dato: unknown): dato is Cotizacion {
   if (!esObjeto(dato)) return false
   if (!tieneTextos(dato, ['numero', 'fecha', 'validez', 'impuesto', 'notas'])) return false
-  if (!tieneTextos(dato.empresa, ['nombre', 'contacto', 'telefono'])) return false
   if (!tieneTextos(dato.cliente, ['nombre', 'empresa', 'email'])) return false
 
-  const items = dato.items
-  return (
-    Array.isArray(items) &&
-    items.length > 0 &&
-    items.every((item) => tieneTextos(item, ['id', 'descripcion', 'cantidad', 'precio']))
+  return esListaDe(
+    dato.items,
+    (item) => tieneTextos(item, ['id', 'descripcion', 'cantidad', 'precio']),
+    1,
   )
+}
+
+/**
+ * La cotización con la que arranca quien todavía no tiene nada en la versión nueva: si
+ * dejó una a medias en la versión anterior se conserva, sin los datos de la empresa.
+ */
+export function cotizacionDeArranque(almacen: Almacen | null, hoy: string = hoyISO()): Cotizacion {
+  const vieja = leer<unknown>(almacen, CLAVE_V1, null)
+  if (!esCotizacion(vieja)) return cotizacionInicial(hoy)
+
+  const { cliente, numero, fecha, validez, items, impuesto, notas } = vieja
+  return { cliente, numero, fecha, validez, items, impuesto, notas }
 }

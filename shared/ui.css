@@ -7,6 +7,7 @@
 :root {
   --fondo: #f7f5f0;
   --superficie: #ffffff;
+  --superficie-suave: #faf8f4;
   --borde: #e5e1d8;
   --borde-fuerte: #c9c3b5;
   --texto: #1a1a1a;
@@ -14,6 +15,25 @@
   --texto-suave: #6b6659;
   --peligro: #a63d31;
   --foco: #2f5fd0;
+
+  /* Estados: texto y fondo. Siempre van con ícono o palabra, nunca solo el color. */
+  --bien: #1c6b2a;
+  --bien-fondo: #e9f5ea;
+  --alerta: #7a5200;
+  --alerta-fondo: #fff4dc;
+  --mal: #a63d31;
+  --mal-fondo: #fbecea;
+  --info: #24518f;
+  --info-fondo: #edf3fb;
+
+  /* Gráficos. El orden de las series está validado para daltonismo: no cambiarlo. */
+  --serie-1: #2a78d6;
+  --serie-2: #eb6834;
+  --serie-3: #1baf7a;
+  --serie-4: #eda100;
+  --serie-apagada: #cfcabd;
+  --rejilla: #eeebe4;
+  --eje: #c9c3b5;
 
   --serif: Georgia, 'Times New Roman', serif;
   --sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -53,20 +73,103 @@ select {
   outline-offset: 2px;
 }
 
+/* Visible solo para lectores de pantalla. */
+.ui-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Página y encabezado ---------- */
+
+.ui-pagina {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 28px 20px 72px;
+}
+
+.ui-pagina-ancha {
+  max-width: 1080px;
+}
+
+.ui-pagina > * + * {
+  margin-top: 20px;
+}
+
+.ui-encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.ui-titulo {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.625rem;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+.ui-descripcion {
+  max-width: 52ch;
+  margin: 4px 0 0;
+  font-size: 0.8125rem;
+  color: var(--texto-suave);
+}
+
+.ui-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Dos columnas que pasan a una en celular. */
+.ui-columnas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.ui-columnas-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
 /* ---------- Tarjeta ---------- */
 
 .ui-tarjeta {
+  /* Dentro de una rejilla, una tarjeta nunca crece más que su columna por culpa del contenido. */
+  min-width: 0;
   background: var(--superficie);
   border: 1px solid var(--borde);
   border-radius: var(--radio);
   padding: 18px;
 }
 
+.ui-tarjeta-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
 .ui-tarjeta-titulo {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin: 0 0 12px;
+  margin: 0;
   font-size: 0.8125rem;
   font-weight: 600;
   color: var(--texto-medio);
@@ -76,6 +179,7 @@ select {
 
 .ui-campo {
   display: block;
+  min-width: 0;
 }
 
 /* Dentro de una tarjeta los campos van apilados; fuera de ella los acomoda cada herramienta. */
@@ -92,6 +196,13 @@ select {
   color: var(--texto-suave);
 }
 
+.ui-ayuda {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
 .ui-entrada {
   width: 100%;
   min-width: 0;
@@ -102,13 +213,67 @@ select {
   font-size: 0.875rem;
 }
 
+.ui-entrada:hover {
+  border-color: var(--borde-fuerte);
+}
+
 .ui-entrada::placeholder {
   color: #9a958a;
 }
 
+/* Misma altura para todos, incluido el de fecha, que por defecto queda más alto. */
+input.ui-entrada,
+select.ui-entrada {
+  height: 38px;
+}
+
 textarea.ui-entrada {
+  display: block;
   min-height: 70px;
   resize: vertical;
+}
+
+select.ui-entrada {
+  padding-right: 6px;
+}
+
+.ui-segmentos {
+  display: inline-flex;
+  margin: 0;
+  padding: 3px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+}
+
+.ui-segmento {
+  position: relative;
+  cursor: pointer;
+}
+
+.ui-segmento input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+
+.ui-segmento span {
+  display: block;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 0.8125rem;
+  color: var(--texto-medio);
+}
+
+.ui-segmento input:checked + span {
+  background: var(--texto);
+  color: #fff;
+}
+
+.ui-segmento input:focus-visible + span {
+  outline: 2px solid var(--foco);
+  outline-offset: 2px;
 }
 
 /* ---------- Botones ---------- */
@@ -162,12 +327,150 @@ textarea.ui-entrada {
 }
 
 .ui-boton-icono:hover {
-  background: #f6e9e7;
+  background: var(--mal-fondo);
+}
+
+.ui-boton-plano {
+  padding: 6px;
+  color: var(--texto-medio);
+}
+
+.ui-boton-plano:hover {
+  background: var(--superficie-suave);
+  color: var(--texto);
 }
 
 .ui-boton:disabled {
   opacity: 0.35;
   cursor: not-allowed;
+}
+
+/* ---------- Indicadores ---------- */
+
+.ui-indicadores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.ui-indicador {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+}
+
+.ui-indicador-etiqueta {
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+.ui-indicador-valor {
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.ui-indicador-principal .ui-indicador-valor {
+  font-size: 1.875rem;
+}
+
+.ui-indicador-detalle {
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+.ui-tono-bien .ui-indicador-valor {
+  color: var(--bien);
+}
+
+.ui-tono-mal .ui-indicador-valor {
+  color: var(--mal);
+}
+
+/* ---------- Avisos ---------- */
+
+.ui-aviso {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radio);
+  font-size: 0.8125rem;
+}
+
+.ui-aviso svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ui-aviso-info {
+  background: var(--info-fondo);
+  color: var(--info);
+}
+
+.ui-aviso-alerta {
+  background: var(--alerta-fondo);
+  color: var(--alerta);
+}
+
+.ui-aviso-error {
+  background: var(--mal-fondo);
+  color: var(--mal);
+}
+
+/* ---------- Pie con la copia de seguridad ---------- */
+
+.ui-pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+.ui-pie-acciones {
+  display: flex;
+  gap: 4px;
+}
+
+.ui-enlace {
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  font-size: 0.75rem;
+  color: var(--texto-medio);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.ui-enlace:hover {
+  color: var(--texto);
+}
+
+/* ---------- Celular ---------- */
+
+@media (max-width: 640px) {
+  .ui-columnas,
+  .ui-columnas-3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    /* biome-ignore lint/complexity/noImportantStyles: tiene que ganarle a cualquier animación de cualquier herramienta */
+    transition: none !important;
+    /* biome-ignore lint/complexity/noImportantStyles: lo mismo que arriba */
+    animation: none !important;
+  }
 }
 
 /* ---------- Impresión ---------- */
@@ -187,6 +490,7 @@ textarea.ui-entrada {
   }
 
   .no-impresion {
+    /* biome-ignore lint/complexity/noImportantStyles: tiene que ganarle al display que cada herramienta le haya puesto */
     display: none !important;
   }
 }
