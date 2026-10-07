@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { Link } from 'react-router'
 import { herramientas, ordenCategorias } from './herramientas'
 import estilos from './sitio.module.css'
@@ -20,23 +20,26 @@ export function Inicio() {
       <header className={estilos.cabecera}>
         <h1 className={estilos.titulo}>Herramientas</h1>
         <p className={estilos.entrada}>
-          Herramientas pequeñas que resuelven una tarea concreta de un negocio o de un
-          entrenamiento. Corren en el navegador, no piden cuenta y guardan los datos en tu equipo.
+          {herramientas.length} herramientas pequeñas que resuelven una tarea concreta de un negocio
+          o de un entrenamiento. Corren en el navegador, no piden cuenta y guardan los datos en tu
+          equipo.
         </p>
       </header>
 
       {grupos.map(({ categoria, lista }) => (
-        <section key={categoria} className={estilos.grupo}>
-          <h2 className={estilos.categoria}>{categoria}</h2>
+        <section key={categoria} className={estilos.grupo} aria-labelledby={`grupo-${categoria}`}>
+          <h2 id={`grupo-${categoria}`} className={estilos.categoria}>
+            {categoria}
+          </h2>
           <ul className={estilos.rejilla}>
-            {lista.map((herramienta) => (
-              <li key={herramienta.ruta}>
-                <Link to={`/${herramienta.ruta}`} className={estilos.ficha}>
-                  <span className={estilos.nombre}>{herramienta.nombre}</span>
-                  <span className={estilos.resumen}>{herramienta.resumen}</span>
-                  <span className={estilos.abrir}>
-                    Abrir <ArrowRight size={14} aria-hidden />
+            {lista.map(({ ruta, nombre, resumen, Icono }) => (
+              <li key={ruta}>
+                <Link to={`/${ruta}`} className={estilos.ficha}>
+                  <span className={estilos.icono} aria-hidden>
+                    <Icono size={20} strokeWidth={1.75} />
                   </span>
+                  <span className={estilos.nombre}>{nombre}</span>
+                  <span className={estilos.resumen}>{resumen}</span>
                 </Link>
               </li>
             ))}
@@ -48,7 +51,9 @@ export function Inicio() {
         <span>
           Hecho por <a href={PORTAFOLIO}>Juan Vasquez</a>
         </span>
-        <a href={REPO}>Código en GitHub</a>
+        <a href={REPO}>
+          Código en GitHub <ArrowUpRight size={13} aria-hidden />
+        </a>
       </footer>
     </main>
   )

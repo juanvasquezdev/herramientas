@@ -1,26 +1,27 @@
 /* Estilos del cascarón del sitio: inicio, barra de cada herramienta y página de "no existe". */
 
 .pagina {
-  max-width: 880px;
+  max-width: 1080px;
   margin: 0 auto;
   padding: 56px 20px 48px;
 }
 
 .cabecera {
-  margin-bottom: 40px;
+  margin-bottom: 44px;
 }
 
 .titulo {
   margin: 0;
   font-family: var(--serif);
-  font-size: 2.25rem;
+  font-size: 2.5rem;
   font-weight: 400;
   letter-spacing: 0.2px;
 }
 
 .entrada {
-  max-width: 58ch;
-  margin: 10px 0 0;
+  max-width: 60ch;
+  margin: 12px 0 0;
+  font-size: 1rem;
   color: var(--texto-medio);
 }
 
@@ -31,11 +32,11 @@
 }
 
 .grupo {
-  margin-bottom: 32px;
+  margin-bottom: 36px;
 }
 
 .categoria {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.6px;
@@ -45,7 +46,7 @@
 
 .rejilla {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 14px;
   margin: 0;
   padding: 0;
@@ -53,9 +54,14 @@
 }
 
 .ficha {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  grid-template-areas:
+    'icono nombre'
+    'icono resumen';
+  gap: 2px 14px;
+  /* Sin esto, las fichas con menos texto estiran sus renglones y los nombres quedan a distinta altura. */
+  align-content: start;
   height: 100%;
   padding: 18px;
   background: var(--superficie);
@@ -63,31 +69,45 @@
   border-radius: var(--radio);
   color: inherit;
   text-decoration: none;
-  transition: border-color 0.15s;
+  transition:
+    border-color 0.15s,
+    transform 0.15s;
 }
 
 .ficha:hover {
   border-color: var(--texto);
+  transform: translateY(-1px);
 }
 
-.nombre {
-  font-family: var(--serif);
-  font-size: 1.25rem;
-}
-
-.resumen {
-  flex: 1;
-  font-size: 0.875rem;
+.icono {
+  grid-area: icono;
+  align-self: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--fondo);
+  border-radius: 8px;
   color: var(--texto-medio);
 }
 
-.abrir {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 8px;
+.ficha:hover .icono {
+  background: var(--texto);
+  color: #fff;
+}
+
+.nombre {
+  grid-area: nombre;
+  font-family: var(--serif);
+  font-size: 1.1875rem;
+  line-height: 1.25;
+}
+
+.resumen {
+  grid-area: resumen;
   font-size: 0.8125rem;
-  font-weight: 600;
+  color: var(--texto-medio);
 }
 
 .pie {
@@ -102,12 +122,22 @@
   color: var(--texto-suave);
 }
 
+.pie a {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
 /* ---------- Dentro de una herramienta ---------- */
 
 .barra {
   max-width: 880px;
   margin: 0 auto;
   padding: 16px 20px 0;
+}
+
+.barraAncha {
+  max-width: 1080px;
 }
 
 .volver {
@@ -128,4 +158,14 @@
   margin: 0 auto;
   padding: 28px 20px;
   color: var(--texto-suave);
+}
+
+@media (max-width: 640px) {
+  .pagina {
+    padding-top: 36px;
+  }
+
+  .titulo {
+    font-size: 2rem;
+  }
 }

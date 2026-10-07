@@ -10,7 +10,7 @@ interface Props {
 
 /** Lo que rodea a cada herramienta: la barra para volver y la espera mientras carga. */
 export function MarcoHerramienta({ herramienta }: Props) {
-  const { nombre, Pantalla } = herramienta
+  const { nombre, ancha, Pantalla } = herramienta
 
   useEffect(() => {
     document.title = `${nombre} · Herramientas`
@@ -19,16 +19,21 @@ export function MarcoHerramienta({ herramienta }: Props) {
     }
   }, [nombre])
 
+  // La barra tiene el mismo ancho que la página de la herramienta, para que queden alineadas.
+  const barra = ancha ? `${estilos.barra} ${estilos.barraAncha}` : estilos.barra
+
   return (
     <>
-      <nav className={`${estilos.barra} no-impresion`} aria-label="Navegación">
+      <nav className={`${barra} no-impresion`} aria-label="Navegación">
         <Link to="/" className={estilos.volver}>
           <ArrowLeft size={15} aria-hidden /> Herramientas
         </Link>
       </nav>
-      <Suspense fallback={<p className={estilos.cargando}>Cargando…</p>}>
-        <Pantalla />
-      </Suspense>
+      <main>
+        <Suspense fallback={<p className={estilos.cargando}>Cargando…</p>}>
+          <Pantalla />
+        </Suspense>
+      </main>
     </>
   )
 }
