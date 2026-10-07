@@ -15,5 +15,5 @@
     "noEmit": true,
     "types": ["vite/client"]
   },
-  "include": ["src", "apps", "shared", "vite.config.ts"]
+  "include": ["src", "apps", "shared", "e2e", "vite.config.ts", "playwright.config.ts"]
 }

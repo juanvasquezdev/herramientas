@@ -1,56 +1,4 @@
-.pagina {
-  max-width: 880px;
-  margin: 0 auto;
-  padding: 28px 20px 72px;
-}
-
-.encabezado {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 28px;
-}
-
-.titulo {
-  margin: 0;
-  font-family: var(--serif);
-  font-size: 1.625rem;
-  font-weight: 400;
-  letter-spacing: 0.2px;
-}
-
-.subtitulo {
-  max-width: 46ch;
-  margin: 4px 0 0;
-  font-size: 0.8125rem;
-  color: var(--texto-suave);
-}
-
-.acciones {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.partes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-
-.datos {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.items {
-  margin-bottom: 20px;
-}
+/* Lo general (página, encabezado, tarjetas, campos) viene de shared/ui.css. Aquí solo la tabla de ítems. */
 
 .cabecera,
 .fila {
@@ -129,19 +77,8 @@
   font-weight: 700;
 }
 
-.aviso {
-  margin: 16px 0 0;
-  font-size: 0.75rem;
-  color: var(--texto-suave);
-}
-
 /* En celular cada ítem pasa a ser un bloque: descripción arriba, números abajo. */
 @media (max-width: 640px) {
-  .partes,
-  .datos {
-    grid-template-columns: 1fr;
-  }
-
   .cabecera {
     display: none;
   }

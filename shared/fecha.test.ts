@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { formatearFecha, hoyISO } from './fecha'
+import { aMilisegundos, formatearFecha, formatearFechaCorta, hoyISO } from './fecha'
 
 describe('hoyISO', () => {
   it('da la fecha local aunque sea de noche', () => {
@@ -23,5 +23,27 @@ describe('formatearFecha', () => {
   it('devuelve el texto igual si no es una fecha', () => {
     expect(formatearFecha('')).toBe('')
     expect(formatearFecha('mañana')).toBe('mañana')
+  })
+})
+
+describe('formatearFechaCorta', () => {
+  it('abrevia el mes y no corre el día', () => {
+    expect(formatearFechaCorta('2026-10-07')).toBe('7 oct 2026')
+    expect(formatearFechaCorta('2026-01-01')).toBe('1 ene 2026')
+  })
+
+  it('devuelve el texto igual si no es una fecha', () => {
+    expect(formatearFechaCorta('pronto')).toBe('pronto')
+  })
+})
+
+describe('aMilisegundos', () => {
+  it('respeta el orden y la distancia entre fechas', () => {
+    const unDia = 24 * 60 * 60 * 1000
+    expect(aMilisegundos('2026-10-08') - aMilisegundos('2026-10-07')).toBe(unDia)
+  })
+
+  it('devuelve NaN si no es una fecha', () => {
+    expect(Number.isNaN(aMilisegundos('ayer'))).toBe(true)
   })
 })

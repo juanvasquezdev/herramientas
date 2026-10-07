@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { guardar, leer, type Almacen } from './almacen'
+import { type Almacen, guardar, leer } from './almacen'
 
 /** Un localStorage de mentira que vive en memoria. */
 function almacenEnMemoria(datos: Record<string, string> = {}): Almacen {

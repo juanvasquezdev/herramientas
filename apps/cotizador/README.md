@@ -2,6 +2,8 @@
 
 Arma una cotización y la exporta en PDF, sin Word ni Excel.
 
+**Abrirlo:** https://juanvasquez-herramientas.vercel.app/cotizador
+
 ![El cotizador con una cotización de ejemplo](captura.png)
 
 ## El problema
@@ -13,7 +15,9 @@ Quien vende servicios o productos por encargo cotiza varias veces por semana. Lo
 - Calcula el total de cada línea, el subtotal, el impuesto y el total mientras se escribe.
 - Exporta un documento limpio en PDF desde la ventana de impresión del navegador.
 - Guarda todo en el navegador: si se cierra la pestaña, la cotización sigue ahí.
-- El botón **Nueva** limpia el cliente y los ítems, conserva los datos de la empresa y sube el consecutivo (`COT-0001` → `COT-0002`).
+- El botón **Nueva** limpia el cliente y los ítems, conserva el impuesto, la validez y las notas, y sube el consecutivo (`COT-0001` → `COT-0002`).
+- Los datos de la empresa se escriben una sola vez y sirven también en la [propuesta de servicios](../propuesta).
+- Descarga una copia de seguridad en un archivo y la vuelve a cargar, por ejemplo para pasar los datos a otro equipo.
 - Funciona en celular: cada ítem pasa a ser un bloque en vez de una fila.
 
 ## Cómo está hecho
@@ -33,6 +37,7 @@ Quien vende servicios o productos por encargo cotiza varias veces por semana. Lo
 - **Vacíos y negativos cuentan como cero.** Una cotización a medio llenar nunca muestra un total raro.
 - **La fecha es la del equipo, no la de UTC.** Con `toISOString()` una cotización hecha en Colombia después de las 7 p. m. salía con la fecha del día siguiente.
 - **Siempre queda una fila.** El botón de quitar se desactiva cuando solo hay un ítem.
+- **Lo guardado tiene versión.** La primera versión guardaba la empresa dentro de la cotización. Cuando la empresa pasó a ser un dato compartido, lo que ya había en el navegador de cada persona se migró en vez de perderse, y eso tiene su prueba.
 
 ## Ideas para después
 

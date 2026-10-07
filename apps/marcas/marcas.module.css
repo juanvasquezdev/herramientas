@@ -1,0 +1,94 @@
+.cabecera,
+.fila {
+  display: grid;
+  grid-template-columns: 150px 150px minmax(0, 1fr) 32px;
+  gap: 8px;
+  align-items: center;
+}
+
+.cabecera {
+  margin-bottom: 8px;
+  font-size: 0.75rem;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.fila {
+  margin-bottom: 8px;
+}
+
+/* El campo de la marca con la unidad pegada a la derecha. */
+.marca {
+  position: relative;
+}
+
+.marca input {
+  padding-right: 36px;
+  font-variant-numeric: tabular-nums;
+}
+
+.marca input[aria-invalid='true'] {
+  border-color: var(--mal);
+}
+
+.unidad {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+  pointer-events: none;
+}
+
+.error {
+  grid-column: 1 / -1;
+  margin: 0 0 4px;
+  font-size: 0.75rem;
+  color: var(--mal);
+}
+
+.vacio {
+  margin: 0 0 12px;
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+}
+
+.nota {
+  margin: 6px 0 0;
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+@media (max-width: 640px) {
+  .cabecera {
+    display: none;
+  }
+
+  .fila {
+    grid-template-columns: 1fr 1fr 32px;
+    grid-template-areas:
+      'fecha marca quitar'
+      'lugar lugar .';
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .fila > :nth-child(1) {
+    grid-area: fecha;
+  }
+
+  .marca {
+    grid-area: marca;
+  }
+
+  .lugar {
+    grid-area: lugar;
+  }
+
+  .quitar {
+    grid-area: quitar;
+  }
+}

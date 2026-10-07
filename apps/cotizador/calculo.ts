@@ -1,4 +1,4 @@
-import { aNumero, redondear } from '../../shared/dinero'
+import { aPositivo, redondear } from '../../shared/numero'
 import type { Item } from './cotizacion'
 
 /**
@@ -12,19 +12,14 @@ export interface Totales {
   total: number
 }
 
-/** Lo escrito en un campo como número que nunca baja de 0. */
-function positivo(valor: string | number): number {
-  return Math.max(0, aNumero(valor))
-}
-
 /** Precio de una unidad. Vacío o negativo cuenta como 0. */
 export function precioUnitario(item: Pick<Item, 'precio'>): number {
-  return redondear(positivo(item.precio))
+  return redondear(aPositivo(item.precio))
 }
 
 /** Cantidad por precio de una línea. Vacíos y negativos cuentan como 0. */
 export function totalItem(item: Pick<Item, 'cantidad' | 'precio'>): number {
-  return redondear(positivo(item.cantidad) * positivo(item.precio))
+  return redondear(aPositivo(item.cantidad) * aPositivo(item.precio))
 }
 
 /**
@@ -36,7 +31,7 @@ export function calcularTotales(
   porcentajeImpuesto: string | number,
 ): Totales {
   const subtotal = redondear(items.reduce((suma, item) => suma + totalItem(item), 0))
-  const porcentaje = positivo(porcentajeImpuesto)
+  const porcentaje = aPositivo(porcentajeImpuesto)
   const impuesto = redondear((subtotal * porcentaje) / 100)
 
   return { subtotal, impuesto, total: redondear(subtotal + impuesto) }

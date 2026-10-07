@@ -21,3 +21,22 @@ export function formatearFecha(iso: string): string {
   const fecha = new Date(Number(anio), Number(mes) - 1, Number(dia))
   return fecha.toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' })
 }
+
+/** "2026-10-07" -> "7 oct 2026". Para tablas y gráficos, donde la fecha larga no cabe. */
+export function formatearFechaCorta(iso: string): string {
+  const partes = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso)
+  if (!partes) return iso
+
+  const [, anio, mes, dia] = partes
+  const fecha = new Date(Number(anio), Number(mes) - 1, Number(dia))
+  const nombreMes = fecha.toLocaleDateString('es-CO', { month: 'short' }).replace('.', '')
+  return `${Number(dia)} ${nombreMes} ${anio}`
+}
+
+/** Los milisegundos de una fecha AAAA-MM-DD a medianoche local. Para ubicarla en un eje de tiempo. */
+export function aMilisegundos(iso: string): number {
+  const partes = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso)
+  if (!partes) return Number.NaN
+  const [, anio, mes, dia] = partes
+  return new Date(Number(anio), Number(mes) - 1, Number(dia)).getTime()
+}

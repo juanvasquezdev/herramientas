@@ -1,40 +1,16 @@
 import { describe, expect, it } from 'vitest'
+import type { Almacen } from '../../shared/almacen'
 import {
+  type Cotizacion,
+  cotizacionDeArranque,
   cotizacionInicial,
   esCotizacion,
   nuevaCotizacion,
-  siguienteNumero,
-  type Cotizacion,
 } from './cotizacion'
-
-describe('siguienteNumero', () => {
-  it('sube el consecutivo y respeta los ceros', () => {
-    expect(siguienteNumero('COT-0001')).toBe('COT-0002')
-    expect(siguienteNumero('COT-0099')).toBe('COT-0100')
-  })
-
-  it('crece cuando se acaban los dígitos', () => {
-    expect(siguienteNumero('COT-9999')).toBe('COT-10000')
-  })
-
-  it('funciona con otros formatos que terminan en número', () => {
-    expect(siguienteNumero('2026-15')).toBe('2026-16')
-    expect(siguienteNumero('7')).toBe('8')
-  })
-
-  it('agrega -2 cuando no termina en número', () => {
-    expect(siguienteNumero('Propuesta')).toBe('Propuesta-2')
-  })
-
-  it('arranca en COT-0001 si está vacío', () => {
-    expect(siguienteNumero('   ')).toBe('COT-0001')
-  })
-})
 
 describe('nuevaCotizacion', () => {
   const anterior: Cotizacion = {
     ...cotizacionInicial('2026-10-01'),
-    empresa: { nombre: 'Mi Taller', contacto: 'hola@mitaller.co', telefono: '300 000 0000' },
     cliente: { nombre: 'Ana', empresa: 'Panadería Ana', email: 'ana@correo.co' },
     numero: 'COT-0007',
     impuesto: '0',
@@ -43,8 +19,7 @@ describe('nuevaCotizacion', () => {
 
   const nueva = nuevaCotizacion(anterior, '2026-10-07')
 
-  it('conserva los datos de la empresa y las condiciones', () => {
-    expect(nueva.empresa).toEqual(anterior.empresa)
+  it('conserva las condiciones', () => {
     expect(nueva.impuesto).toBe('0')
     expect(nueva.validez).toBe(anterior.validez)
     expect(nueva.notas).toBe(anterior.notas)
@@ -89,15 +64,46 @@ describe('esCotizacion', () => {
     expect(esCotizacion(sinCliente)).toBe(false)
   })
 
-  it('rechaza ítems con la forma vieja (números en vez de texto)', () => {
-    const vieja = {
+  it('rechaza ítems con otra forma (números en vez de texto)', () => {
+    const rara = {
       ...cotizacionInicial('2026-10-07'),
       items: [{ id: 'a', desc: 'Servicio', qty: 1, price: 0 }],
     }
-    expect(esCotizacion(vieja)).toBe(false)
+    expect(esCotizacion(rara)).toBe(false)
   })
 
   it('rechaza una lista de ítems vacía', () => {
     expect(esCotizacion({ ...cotizacionInicial('2026-10-07'), items: [] })).toBe(false)
+  })
+})
+
+describe('cotizacionDeArranque', () => {
+  const almacenCon = (datos: Record<string, string>): Almacen => ({
+    getItem: (clave) => datos[clave] ?? null,
+    setItem: () => {},
+  })
+
+  it('conserva la cotización de la versión anterior, sin los datos de la empresa', () => {
+    const vieja = {
+      ...cotizacionInicial('2026-10-01'),
+      empresa: { nombre: 'Taller', contacto: 'hola@taller.co', telefono: '' },
+      numero: 'COT-0012',
+    }
+    const almacen = almacenCon({ 'herramientas:cotizador:v1': JSON.stringify(vieja) })
+
+    const resultado = cotizacionDeArranque(almacen, '2026-10-07')
+
+    expect(resultado.numero).toBe('COT-0012')
+    expect(resultado).not.toHaveProperty('empresa')
+    expect(esCotizacion(resultado)).toBe(true)
+  })
+
+  it('arranca limpia si no había nada o lo que había no sirve', () => {
+    expect(cotizacionDeArranque(almacenCon({}), '2026-10-07').numero).toBe('COT-0001')
+    expect(
+      cotizacionDeArranque(almacenCon({ 'herramientas:cotizador:v1': '{"x":1}' }), '2026-10-07')
+        .fecha,
+    ).toBe('2026-10-07')
+    expect(cotizacionDeArranque(null, '2026-10-07').numero).toBe('COT-0001')
   })
 })

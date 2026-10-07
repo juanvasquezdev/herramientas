@@ -1,59 +1,55 @@
-import { Building2, Download, FilePlus2, Plus, Trash2, User } from 'lucide-react'
+import { Download, FilePlus2, Plus, Trash2, User } from 'lucide-react'
+import { almacenDelNavegador } from '../../shared/almacen'
 import { formatearDinero } from '../../shared/dinero'
 import { imprimirConTitulo } from '../../shared/imprimir'
-import { Boton, Campo, Tarjeta } from '../../shared/ui'
+import { cambiarEnLista, quitarDeLista } from '../../shared/lista'
+import { Respaldo } from '../../shared/Respaldo'
+import { TarjetaPerfil } from '../../shared/TarjetaPerfil'
+import { Boton, Campo, CampoArea, Encabezado, Pagina, Tarjeta } from '../../shared/ui'
 import { useGuardadoLocal } from '../../shared/useGuardadoLocal'
+import { usePerfil } from '../../shared/usePerfil'
 import { calcularTotales, totalItem } from './calculo'
 import {
   CLAVE_GUARDADO,
-  cotizacionInicial,
-  esCotizacion,
-  itemVacio,
-  nuevaCotizacion,
   type Cliente,
   type Cotizacion,
-  type Empresa,
+  cotizacionDeArranque,
+  esCotizacion,
   type Item,
+  itemVacio,
+  nuevaCotizacion,
 } from './cotizacion'
-import { Documento } from './Documento'
 import estilos from './cotizador.module.css'
+import { Documento } from './Documento'
 
 type CampoSimple = 'numero' | 'fecha' | 'validez' | 'impuesto' | 'notas'
-type CampoItem = 'descripcion' | 'cantidad' | 'precio'
 
 export default function Cotizador() {
+  const [perfil, setPerfil] = usePerfil()
   // Toda la cotización vive en un solo objeto para guardarla y leerla de una vez.
   const [cotizacion, setCotizacion] = useGuardadoLocal<Cotizacion>(
     CLAVE_GUARDADO,
-    cotizacionInicial,
+    () => cotizacionDeArranque(almacenDelNavegador()),
     esCotizacion,
   )
-  const { empresa, cliente, items } = cotizacion
+  const { cliente, items } = cotizacion
   const totales = calcularTotales(items, cotizacion.impuesto)
 
   const cambiar = (campo: CampoSimple, valor: string) =>
     setCotizacion((prev) => ({ ...prev, [campo]: valor }))
 
-  const cambiarEmpresa = (campo: keyof Empresa, valor: string) =>
-    setCotizacion((prev) => ({ ...prev, empresa: { ...prev.empresa, [campo]: valor } }))
-
   const cambiarCliente = (campo: keyof Cliente, valor: string) =>
     setCotizacion((prev) => ({ ...prev, cliente: { ...prev.cliente, [campo]: valor } }))
 
-  const cambiarItem = (id: Item['id'], campo: CampoItem, valor: string) =>
-    setCotizacion((prev) => ({
-      ...prev,
-      items: prev.items.map((item) => (item.id === id ? { ...item, [campo]: valor } : item)),
-    }))
+  const cambiarItem = (id: string, cambios: Partial<Item>) =>
+    setCotizacion((prev) => ({ ...prev, items: cambiarEnLista(prev.items, id, cambios) }))
 
   const agregarItem = () =>
     setCotizacion((prev) => ({ ...prev, items: [...prev.items, itemVacio()] }))
 
   // Siempre queda al menos una fila: una cotización sin ítems no tiene sentido.
-  const quitarItem = (id: Item['id']) =>
-    setCotizacion((prev) =>
-      prev.items.length > 1 ? { ...prev, items: prev.items.filter((item) => item.id !== id) } : prev,
-    )
+  const quitarItem = (id: string) =>
+    setCotizacion((prev) => ({ ...prev, items: quitarDeLista(prev.items, id) }))
 
   const empezarNueva = () => {
     const seguro = window.confirm(
@@ -66,51 +62,21 @@ export default function Cotizador() {
 
   return (
     <>
-      <div className={`${estilos.pagina} no-impresion`}>
-        <header className={estilos.encabezado}>
-          <div>
-            <h1 className={estilos.titulo}>Cotizador</h1>
-            <p className={estilos.subtitulo}>
-              Llena los datos y exporta la cotización. En la ventana de impresión elige «Guardar
-              como PDF».
-            </p>
-          </div>
-          <div className={estilos.acciones}>
-            <Boton onClick={empezarNueva}>
-              <FilePlus2 size={16} aria-hidden /> Nueva
-            </Boton>
-            <Boton variante="primario" onClick={exportar}>
-              <Download size={16} aria-hidden /> Exportar PDF
-            </Boton>
-          </div>
-        </header>
+      <Pagina>
+        <Encabezado
+          titulo="Cotizador"
+          descripcion="Llena los datos y exporta la cotización. En la ventana de impresión elige «Guardar como PDF»."
+        >
+          <Boton onClick={empezarNueva}>
+            <FilePlus2 size={16} aria-hidden /> Nueva
+          </Boton>
+          <Boton variante="primario" onClick={exportar}>
+            <Download size={16} aria-hidden /> Exportar PDF
+          </Boton>
+        </Encabezado>
 
-        <div className={estilos.partes}>
-          <Tarjeta titulo="Tu empresa" icono={<Building2 size={15} aria-hidden />}>
-            <Campo
-              etiqueta="Nombre"
-              value={empresa.nombre}
-              onChange={(e) => cambiarEmpresa('nombre', e.target.value)}
-              placeholder="Nombre de tu empresa o el tuyo"
-              autoComplete="organization"
-            />
-            <Campo
-              etiqueta="Correo"
-              type="email"
-              value={empresa.contacto}
-              onChange={(e) => cambiarEmpresa('contacto', e.target.value)}
-              placeholder="contacto@tuempresa.com"
-              autoComplete="email"
-            />
-            <Campo
-              etiqueta="Teléfono"
-              type="tel"
-              value={empresa.telefono}
-              onChange={(e) => cambiarEmpresa('telefono', e.target.value)}
-              placeholder="Opcional"
-              autoComplete="tel"
-            />
-          </Tarjeta>
+        <div className="ui-columnas">
+          <TarjetaPerfil perfil={perfil} alCambiar={setPerfil} />
 
           <Tarjeta titulo="Cliente" icono={<User size={15} aria-hidden />}>
             <Campo
@@ -138,7 +104,7 @@ export default function Cotizador() {
           </Tarjeta>
         </div>
 
-        <div className={estilos.datos}>
+        <div className="ui-columnas-3">
           <Campo
             etiqueta="Número"
             value={cotizacion.numero}
@@ -160,7 +126,7 @@ export default function Cotizador() {
           />
         </div>
 
-        <Tarjeta className={estilos.items}>
+        <Tarjeta>
           <div className={estilos.cabecera} aria-hidden>
             <span>Descripción</span>
             <span>Cant.</span>
@@ -174,7 +140,7 @@ export default function Cotizador() {
               <input
                 className={`ui-entrada ${estilos.descripcion}`}
                 value={item.descripcion}
-                onChange={(e) => cambiarItem(item.id, 'descripcion', e.target.value)}
+                onChange={(e) => cambiarItem(item.id, { descripcion: e.target.value })}
                 placeholder="Servicio o producto"
                 aria-label={`Descripción del ítem ${indice + 1}`}
               />
@@ -190,7 +156,7 @@ export default function Cotizador() {
                   step="any"
                   inputMode="decimal"
                   value={item.cantidad}
-                  onChange={(e) => cambiarItem(item.id, 'cantidad', e.target.value)}
+                  onChange={(e) => cambiarItem(item.id, { cantidad: e.target.value })}
                   aria-label={`Cantidad del ítem ${indice + 1}`}
                 />
               </div>
@@ -205,7 +171,7 @@ export default function Cotizador() {
                   step="any"
                   inputMode="decimal"
                   value={item.precio}
-                  onChange={(e) => cambiarItem(item.id, 'precio', e.target.value)}
+                  onChange={(e) => cambiarItem(item.id, { precio: e.target.value })}
                   placeholder="0"
                   aria-label={`Precio del ítem ${indice + 1}`}
                 />
@@ -261,23 +227,23 @@ export default function Cotizador() {
         </Tarjeta>
 
         <Tarjeta>
-          <label className="ui-campo">
-            <span className="ui-etiqueta">Notas y condiciones</span>
-            <textarea
-              className="ui-entrada"
-              value={cotizacion.notas}
-              onChange={(e) => cambiar('notas', e.target.value)}
-            />
-          </label>
+          <CampoArea
+            etiqueta="Notas y condiciones"
+            value={cotizacion.notas}
+            onChange={(e) => cambiar('notas', e.target.value)}
+          />
         </Tarjeta>
 
-        <p className={estilos.aviso}>
-          Todo queda guardado en este navegador. Nada se envía a ningún servidor.
-        </p>
-      </div>
+        <Respaldo
+          herramienta="cotizador"
+          datos={cotizacion}
+          esValido={esCotizacion}
+          alCargar={setCotizacion}
+        />
+      </Pagina>
 
       <div className="solo-impresion">
-        <Documento cotizacion={cotizacion} totales={totales} />
+        <Documento perfil={perfil} cotizacion={cotizacion} totales={totales} />
       </div>
     </>
   )
