@@ -1,0 +1,58 @@
+.ayuda {
+  margin: -6px 0 12px;
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+.costo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 120px 32px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.total {
+  margin: 14px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--borde);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.supuestos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.modo {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--borde);
+}
+
+/* El selector queda alineado con el campo, que tiene su etiqueta encima. */
+.modo > :first-child {
+  margin-top: 21px;
+}
+
+@media (max-width: 640px) {
+  .supuestos,
+  .modo {
+    grid-template-columns: 1fr;
+  }
+
+  .modo > :first-child {
+    margin-top: 0;
+  }
+
+  .costo {
+    grid-template-columns: minmax(0, 1fr) 96px 32px;
+  }
+}
