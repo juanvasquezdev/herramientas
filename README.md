@@ -6,6 +6,10 @@ Todas viven en un solo sitio: una página de inicio y una ruta por herramienta.
 
 **En vivo:** https://juanvasquez-herramientas.vercel.app
 
+| Tema claro | Tema oscuro |
+|---|---|
+| ![El inicio en tema claro, con las ocho herramientas](docs/inicio-claro.png) | ![El inicio en tema oscuro](docs/inicio-oscuro.png) |
+
 ## Qué hay
 
 | Herramienta | Para qué sirve | Abrir | Código |
@@ -56,7 +60,9 @@ npm run e2e
 │   ├── propuesta/
 │   └── ...
 ├── shared/                lo que usan varias herramientas
-│   ├── ui.tsx, ui.css       página, tarjeta, campo, botón, indicador, aviso y los colores
+│   ├── ui.tsx, ui.css       página, tarjeta, campo, botón, indicador, aviso y los colores de los dos temas
+│   ├── tema.ts, useTema.ts  claro u oscuro: qué manda y cómo se recuerda
+│   ├── identidad.ts         la categoría y el ícono de la herramienta abierta
 │   ├── graficos.tsx         columnas, línea y barras, dibujadas en SVG
 │   ├── documento.tsx        el membrete de los PDF
 │   ├── useGuardadoLocal.ts  un useState que no se pierde al recargar
@@ -66,9 +72,10 @@ npm run e2e
 │   ├── csv.ts, archivo.ts   exportar a Excel y descargar
 │   └── vision.ts            la carga de MediaPipe, para las dos que usan la cámara o video
 ├── src/                   el cascarón del sitio
-│   ├── herramientas.ts      el registro: de aquí salen las rutas y el inicio
-│   ├── Inicio.tsx
-│   └── MarcoHerramienta.tsx
+│   ├── herramientas.ts      el registro: de aquí salen las rutas, el inicio y la barra de abajo
+│   ├── Marco.tsx            lo que no cambia entre pantallas: las dos barras y la entrada animada
+│   ├── MarcoHerramienta.tsx le pasa a cada herramienta su categoría y su ícono
+│   └── Inicio.tsx
 └── e2e/                   pruebas de punta a punta (Playwright)
 ```
 
@@ -89,13 +96,17 @@ Dentro de cada herramienta el código se parte igual:
 - **Los gráficos están hechos a mano en SVG.** Son tres tipos y una librería de gráficos pesaría más que todo el resto del sitio. Los de columnas y de línea se pueden leer con teclado y traen sus datos en una tabla.
 - **El video y la cámara no salen del equipo.** La detección corre en el navegador con MediaPipe. Lo único que se descarga es el modelo, desde los servidores de Google, la primera vez.
 - **Biome en vez de ESLint y Prettier.** Hace las dos cosas con una sola configuración y ya funciona con TypeScript 7.
+- **Dos temas con las mismas variables.** Los colores viven en variables de CSS que se definen dos veces, una por tema. Ninguna herramienta sabe en qué tema está. El tema sigue al equipo hasta que la persona elige; un script mínimo en `index.html` lo pone antes de pintar, para que no se vea un destello. Lo que se imprime sale siempre en claro.
+- **Un color por categoría.** Negocio, deporte, contenido y experimentos tienen cada uno su color, y cada pantalla lo recibe en una sola variable (`--c`). Los botones, los indicadores y los gráficos de una serie lo usan sin saber cuál es. El contraste de texto se revisó en los dos temas.
+- **Cambiar de herramienta sin volver al inicio.** La barra de abajo está en todas las pantallas. El código de cada herramienta empieza a bajar cuando el cursor pasa por su ícono, así el cambio se siente inmediato. Al cambiar, la pantalla entra con una animación corta, que se apaga si el equipo pide menos movimiento.
+- **Las fuentes van dentro del sitio.** Archivo, Geist y Geist Mono se instalan como paquetes y se sirven desde el mismo dominio. No se le pide nada a otro servidor.
 
 ## Agregar una herramienta
 
 1. Crear `apps/<nombre>/` con la pantalla como `export default`.
 2. Sacar las cuentas a un archivo aparte y escribirles pruebas.
 3. Usar lo de `shared/` en vez de copiar: `Pagina`, `Tarjeta`, `Campo`, `Boton`, `useGuardadoLocal`, `formatearDinero`.
-4. Agregarla en `src/herramientas.ts`. Con eso ya tiene ruta, aparece en el inicio y entra a las pruebas de punta a punta.
+4. Agregarla en `src/herramientas.ts` con su categoría, su ícono y un nombre corto. Con eso ya tiene ruta, color, lugar en el inicio y en la barra de abajo, y entra a las pruebas de punta a punta.
 5. Escribir su `README.md` con el problema que resuelve y una captura.
 6. `npm run check` en verde antes del commit.
 
@@ -103,7 +114,7 @@ Un cuidado con los nombres: dos archivos de la misma carpeta no pueden llamarse 
 
 ## Stack
 
-React 19, TypeScript, Vite, React Router, Vitest, Playwright y Biome. MediaPipe para la detección de postura y de gestos. GitHub Actions corre tipos, lint, pruebas y build en cada push a `main` y en cada pull request.
+React 19, TypeScript, Vite, React Router, Vitest, Playwright y Biome. MediaPipe para la detección de postura y de gestos. Tipografías Archivo, Geist y Geist Mono. GitHub Actions corre tipos, lint, pruebas y build en Linux y en Windows, y las pruebas de punta a punta, en cada push a `main` y en cada pull request.
 
 ---
 
