@@ -1,0 +1,159 @@
+.datos {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+}
+
+/* Las semanas a la izquierda y la medida a la derecha. */
+.barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Es un fieldset: se le quita el marco que trae por defecto. */
+.semanas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.semana {
+  padding: 8px 14px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 4px;
+  font-size: 0.8125rem;
+  color: var(--texto-medio);
+  cursor: pointer;
+}
+
+.semana:hover {
+  border-color: var(--borde-fuerte);
+}
+
+.semanaActiva,
+.semanaActiva:hover {
+  background: var(--texto);
+  border-color: var(--texto);
+  color: #fff;
+}
+
+.nombreSemana {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nombreSemana input {
+  width: 170px;
+}
+
+.cabecera,
+.fila {
+  display: grid;
+  grid-template-columns: 124px minmax(0, 1fr) 76px 76px 88px 110px 32px;
+  gap: 8px;
+  align-items: center;
+}
+
+.cabecera {
+  margin-bottom: 8px;
+  font-size: 0.75rem;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.fila {
+  margin-bottom: 8px;
+}
+
+.rotulo {
+  display: none;
+  margin-bottom: 2px;
+  font-size: 0.6875rem;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.derecha,
+.carga {
+  text-align: right;
+}
+
+.carga {
+  padding-right: 4px;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--texto-medio);
+}
+
+.vacio {
+  margin: 0 0 12px;
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+}
+
+@media (max-width: 720px) {
+  .datos {
+    grid-template-columns: 1fr;
+  }
+
+  .cabecera {
+    display: none;
+  }
+
+  .rotulo {
+    display: block;
+  }
+
+  /* Cada ejercicio pasa a ser un bloque: día, nombre, los tres números y el total. */
+  .fila {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) 32px;
+    grid-template-areas:
+      'dia dia . quitar'
+      'nombre nombre nombre nombre'
+      'series reps kg .'
+      'carga carga carga .';
+    align-items: end;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .dia {
+    grid-area: dia;
+  }
+
+  .nombre {
+    grid-area: nombre;
+  }
+
+  .fila > .numero:nth-of-type(1) {
+    grid-area: series;
+  }
+
+  .fila > .numero:nth-of-type(2) {
+    grid-area: reps;
+  }
+
+  .fila > .numero:nth-of-type(3) {
+    grid-area: kg;
+  }
+
+  .carga {
+    grid-area: carga;
+  }
+
+  .quitar {
+    grid-area: quitar;
+  }
+}
