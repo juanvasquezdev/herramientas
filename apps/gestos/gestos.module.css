@@ -1,0 +1,310 @@
+.mesa {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+/* ---------- Cámara ---------- */
+
+.camara {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: #14110f;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.vista {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.vista[hidden] {
+  display: none;
+}
+
+.oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.apagada {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.apagada p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #cfc9bd;
+}
+
+/* El botón primario es negro: sobre el fondo oscuro de la cámara se invierte. */
+.apagada :global(.ui-boton-primario) {
+  background: #ffffff;
+  color: var(--texto);
+}
+
+.estado {
+  margin: 14px 0;
+}
+
+.estado p {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+  font-size: 0.8125rem;
+}
+
+.estado span {
+  color: var(--texto-suave);
+}
+
+.estado progress {
+  display: block;
+  width: 100%;
+  height: 6px;
+  margin: 6px 0 10px;
+  accent-color: var(--texto);
+}
+
+.guia {
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--borde);
+  font-size: 0.8125rem;
+}
+
+.guia > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0;
+}
+
+.guia dt {
+  font-weight: 600;
+}
+
+.guia dd {
+  margin: 0;
+  text-align: right;
+  color: var(--texto-medio);
+}
+
+.nota {
+  margin: 10px 0 0;
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+/* ---------- Lo que se controla ---------- */
+
+.modo {
+  min-width: 0;
+}
+
+.vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 320px;
+  padding: 32px 24px;
+  border: 1px dashed var(--borde-fuerte);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  text-align: center;
+  color: var(--texto-suave);
+}
+
+.vacio p {
+  max-width: 44ch;
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--texto-medio);
+}
+
+.barraDeModo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.posicion {
+  flex: 1;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--texto-suave);
+}
+
+/* Reproductor */
+
+.medio {
+  display: block;
+  width: 100%;
+  max-height: 60vh;
+  background: #14110f;
+  border-radius: var(--radio);
+}
+
+.volumen {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+  min-width: 180px;
+  color: var(--texto-medio);
+}
+
+.volumen input {
+  flex: 1;
+  accent-color: var(--texto);
+}
+
+.volumen output {
+  min-width: 44px;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.pistas {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  overflow: hidden;
+  counter-reset: pista;
+}
+
+.pista {
+  display: block;
+  width: 100%;
+  padding: 9px 14px;
+  border: 0;
+  border-bottom: 1px solid var(--borde);
+  background: none;
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pistas li:last-child .pista {
+  border-bottom: 0;
+}
+
+.pista::before {
+  counter-increment: pista;
+  content: counter(pista) '. ';
+  color: var(--texto-suave);
+}
+
+.pista:hover {
+  background: var(--superficie-suave);
+}
+
+.pistaActiva,
+.pistaActiva:hover {
+  background: var(--texto);
+  color: #fff;
+}
+
+.pistaActiva::before {
+  color: #cfc9bd;
+}
+
+/* Diapositivas */
+
+.diapositiva {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+  background: #14110f;
+  border-radius: var(--radio);
+  overflow: hidden;
+}
+
+.diapositiva img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* En pantalla completa el visor ocupa todo, sin esquinas redondeadas. */
+.diapositiva:fullscreen {
+  aspect-ratio: auto;
+  border-radius: 0;
+}
+
+.contador {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(20, 17, 15, 0.7);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+
+/* Dibujo */
+
+.pizarra {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+}
+
+.colores {
+  display: flex;
+  gap: 6px;
+  margin: 0 auto 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.color {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 2px solid var(--superficie);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--borde-fuerte);
+  cursor: pointer;
+}
+
+.colorActivo {
+  box-shadow: 0 0 0 2px var(--texto);
+}
+
+@media (max-width: 860px) {
+  .mesa {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
