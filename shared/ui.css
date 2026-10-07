@@ -4,17 +4,31 @@
   en su archivo .module.css, que Vite aísla para que no se pisen entre ellas.
 */
 
+/* ---------- Tema claro (y el del papel: lo que se imprime siempre sale así) ---------- */
+
 :root {
-  --fondo: #f7f5f0;
+  color-scheme: light;
+
+  --fondo: #f3f5fa;
   --superficie: #ffffff;
-  --superficie-suave: #faf8f4;
-  --borde: #e5e1d8;
-  --borde-fuerte: #c9c3b5;
-  --texto: #1a1a1a;
-  --texto-medio: #4a4a4a;
-  --texto-suave: #6b6659;
-  --peligro: #a63d31;
+  --superficie-suave: #f5f6fa;
+  --borde: #e1e5ee;
+  --borde-fuerte: #c4cada;
+  /* El borde de los campos lleva más contraste (3:1) para que el campo se distinga sin esfuerzo. */
+  --borde-campo: #878da1;
+  --texto: #171a26;
+  --texto-medio: #3f4558;
+  --texto-suave: #5b6174;
+  /* El color del texto que va encima de un fondo de color o de --texto. */
+  --sobre: #ffffff;
   --foco: #2f5fd0;
+  --sombra: rgba(23, 26, 38, 0.1);
+
+  /* Un color por categoría. Cada pantalla toma el suyo en --c. */
+  --negocio: #4253e0;
+  --deporte: #0b7a53;
+  --contenido: #b3268a;
+  --experimentos: #a05c00;
 
   /* Estados: texto y fondo. Siempre van con ícono o palabra, nunca solo el color. */
   --bien: #1c6b2a;
@@ -25,20 +39,105 @@
   --mal-fondo: #fbecea;
   --info: #24518f;
   --info-fondo: #edf3fb;
+  --peligro: var(--mal);
 
-  /* Gráficos. El orden de las series está validado para daltonismo: no cambiarlo. */
+  /*
+    Gráficos con varias series. El orden está validado para daltonismo en cada tema: no cambiarlo.
+    Los de una sola serie usan el color de la categoría (--c).
+  */
   --serie-1: #2a78d6;
   --serie-2: #eb6834;
   --serie-3: #1baf7a;
   --serie-4: #eda100;
-  --serie-apagada: #cfcabd;
-  --rejilla: #eeebe4;
-  --eje: #c9c3b5;
+  --serie-apagada: #cfd3de;
+  --marca-neutra: #8b90a0;
+  --marca-bien: #1c8a3a;
+  --rejilla: #eceff5;
+  --eje: #c4cada;
 
-  --serif: Georgia, 'Times New Roman', serif;
-  --sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* El fondo de los visores de video y de cámara: oscuro en los dos temas. */
+  --escenario: #0c0d12;
 
-  --radio: 6px;
+  --f-titulo: 'Archivo Variable', 'Arial Narrow', 'Helvetica Neue', sans-serif;
+  --f-texto: 'Geist Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-mono: 'Geist Mono Variable', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+
+  --radio-chico: 12px;
+  --radio: 16px;
+  --radio-grande: 22px;
+
+  --c: var(--negocio);
+}
+
+/* ---------- Tema oscuro. Solo en pantalla: al imprimir vuelve el claro. ---------- */
+
+@media screen {
+  :root[data-tema='oscuro'] {
+    color-scheme: dark;
+
+    --fondo: #12141c;
+    --superficie: #1b1e29;
+    --superficie-suave: #222634;
+    --borde: #2c3040;
+    --borde-fuerte: #444a5e;
+    --borde-campo: #6f7690;
+    --texto: #f1f2f7;
+    --texto-medio: #c9cddb;
+    --texto-suave: #a5aabb;
+    --sobre: #12141c;
+    --foco: #9db4ff;
+    --sombra: rgba(0, 0, 0, 0.45);
+
+    --negocio: #96a2ff;
+    --deporte: #58d6a6;
+    --contenido: #f285d4;
+    --experimentos: #f2b450;
+
+    --bien: #7fdc95;
+    --bien-fondo: #17301f;
+    --alerta: #f2c56b;
+    --alerta-fondo: #33290f;
+    --mal: #ff9f93;
+    --mal-fondo: #3a1c19;
+    --info: #9cc2ff;
+    --info-fondo: #172640;
+
+    --serie-1: #3987e5;
+    --serie-2: #d95926;
+    --serie-3: #199e70;
+    --serie-4: #c98500;
+    --serie-apagada: #3a3f52;
+    --marca-neutra: #7d8398;
+    --marca-bien: #4fcf7a;
+    --rejilla: #262a38;
+    --eje: #444a5e;
+  }
+}
+
+[data-categoria='negocio'] {
+  --c: var(--negocio);
+}
+
+[data-categoria='deporte'] {
+  --c: var(--deporte);
+}
+
+[data-categoria='contenido'] {
+  --c: var(--contenido);
+}
+
+[data-categoria='experimentos'] {
+  --c: var(--experimentos);
+}
+
+/*
+  El tinte suave de la categoría. Se declara en cada elemento que fija su categoría y no
+  solo en :root, porque una variable que usa a otra se resuelve donde se declara: si
+  estuviera solo arriba, todas las pantallas heredarían el tinte de la primera categoría.
+*/
+:root,
+[data-categoria] {
+  --c-tinte: color-mix(in srgb, var(--c) 10%, var(--superficie));
 }
 
 *,
@@ -55,9 +154,10 @@ body {
   margin: 0;
   background: var(--fondo);
   color: var(--texto);
-  font-family: var(--sans);
+  font-family: var(--f-texto);
   font-size: 15px;
   line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
 }
 
 button,
@@ -86,12 +186,21 @@ select {
   border: 0;
 }
 
+/* Rótulo pequeño en mayúsculas: etiquetas de campos, cabeceras de tabla, títulos de tarjeta. */
+.ui-rotulo {
+  font-family: var(--f-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
 /* ---------- Página y encabezado ---------- */
 
 .ui-pagina {
   max-width: 880px;
   margin: 0 auto;
-  padding: 28px 20px 72px;
+  padding: 20px 20px 28px;
 }
 
 .ui-pagina-ancha {
@@ -102,27 +211,64 @@ select {
   margin-top: 20px;
 }
 
+/* El encabezado de cada herramienta: su ícono, su categoría, el título y las acciones. */
 .ui-encabezado {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 8px;
+  gap: 16px 20px;
+  padding: 22px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 26px;
+}
+
+.ui-encabezado-principal {
+  display: flex;
+  flex: 1 1 380px;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.ui-mosaico {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: var(--c);
+  border-radius: 20px;
+  color: var(--sobre);
+}
+
+.ui-chip {
+  display: inline-block;
+  padding: 3px 10px;
+  background: var(--c-tinte);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--c);
 }
 
 .ui-titulo {
-  margin: 0;
-  font-family: var(--serif);
-  font-size: 1.625rem;
-  font-weight: 400;
-  letter-spacing: 0.2px;
+  margin: 6px 0 0;
+  font-family: var(--f-titulo);
+  font-size: clamp(1.875rem, 4.2vw, 2.625rem);
+  font-stretch: 68%;
+  font-weight: 800;
+  line-height: 0.95;
+  text-transform: uppercase;
+  text-wrap: balance;
 }
 
 .ui-descripcion {
-  max-width: 52ch;
-  margin: 4px 0 0;
-  font-size: 0.8125rem;
+  max-width: 56ch;
+  margin: 8px 0 0;
+  font-size: 0.875rem;
   color: var(--texto-suave);
 }
 
@@ -152,8 +298,8 @@ select {
   min-width: 0;
   background: var(--superficie);
   border: 1px solid var(--borde);
-  border-radius: var(--radio);
-  padding: 18px;
+  border-radius: var(--radio-grande);
+  padding: 20px;
 }
 
 .ui-tarjeta-cabecera {
@@ -162,17 +308,24 @@ select {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .ui-tarjeta-titulo {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   margin: 0;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--texto-medio);
+  font-family: var(--f-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.ui-tarjeta-titulo svg {
+  color: var(--c);
 }
 
 /* ---------- Campos ---------- */
@@ -184,21 +337,22 @@ select {
 
 /* Dentro de una tarjeta los campos van apilados; fuera de ella los acomoda cada herramienta. */
 .ui-tarjeta > .ui-campo + .ui-campo {
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .ui-etiqueta {
   display: block;
-  margin-bottom: 4px;
-  font-size: 0.75rem;
-  letter-spacing: 0.4px;
+  margin-bottom: 6px;
+  font-family: var(--f-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--texto-suave);
 }
 
 .ui-ayuda {
   display: block;
-  margin-top: 4px;
+  margin-top: 6px;
   font-size: 0.75rem;
   color: var(--texto-suave);
 }
@@ -206,30 +360,32 @@ select {
 .ui-entrada {
   width: 100%;
   min-width: 0;
-  padding: 8px 10px;
+  padding: 8px 12px;
   background: var(--superficie);
-  border: 1px solid var(--borde);
-  border-radius: 4px;
+  border: 1px solid var(--borde-campo);
+  border-radius: var(--radio-chico);
   font-size: 0.875rem;
+  transition: border-color 0.12s;
 }
 
 .ui-entrada:hover {
-  border-color: var(--borde-fuerte);
+  border-color: var(--texto);
 }
 
 .ui-entrada::placeholder {
-  color: #9a958a;
+  color: var(--texto-suave);
+  opacity: 0.75;
 }
 
 /* Misma altura para todos, incluido el de fecha, que por defecto queda más alto. */
 input.ui-entrada,
 select.ui-entrada {
-  height: 38px;
+  height: 42px;
 }
 
 textarea.ui-entrada {
   display: block;
-  min-height: 70px;
+  min-height: 78px;
   resize: vertical;
 }
 
@@ -239,11 +395,12 @@ select.ui-entrada {
 
 .ui-segmentos {
   display: inline-flex;
-  margin: 0;
-  padding: 3px;
+  /* Solo se quita el margen lateral que trae el fieldset: el de arriba lo decide la página. */
+  margin-inline: 0;
+  padding: 4px;
   background: var(--superficie);
   border: 1px solid var(--borde);
-  border-radius: 6px;
+  border-radius: 14px;
 }
 
 .ui-segmento {
@@ -260,15 +417,23 @@ select.ui-entrada {
 
 .ui-segmento span {
   display: block;
-  padding: 6px 14px;
-  border-radius: 4px;
+  padding: 7px 14px;
+  border-radius: 10px;
   font-size: 0.8125rem;
+  font-weight: 500;
   color: var(--texto-medio);
+  transition:
+    background 0.12s,
+    color 0.12s;
+}
+
+.ui-segmento:hover span {
+  color: var(--texto);
 }
 
 .ui-segmento input:checked + span {
   background: var(--texto);
-  color: #fff;
+  color: var(--sobre);
 }
 
 .ui-segmento input:focus-visible + span {
@@ -283,21 +448,28 @@ select.ui-entrada {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 9px 16px;
+  min-height: 42px;
+  padding: 8px 18px;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: 14px;
   background: none;
   font-size: 0.875rem;
+  font-weight: 600;
   cursor: pointer;
+  transition:
+    transform 0.12s,
+    background 0.12s,
+    border-color 0.12s,
+    color 0.12s;
 }
 
 .ui-boton-primario {
-  background: var(--texto);
-  color: #fff;
+  background: var(--c);
+  color: var(--sobre);
 }
 
 .ui-boton-primario:hover {
-  background: #333;
+  transform: translateY(-1px);
 }
 
 .ui-boton-secundario {
@@ -310,19 +482,26 @@ select.ui-entrada {
 }
 
 .ui-boton-punteado {
-  border: 1px dashed var(--borde-fuerte);
+  border: 1px dashed var(--borde-campo);
   color: var(--texto-medio);
   font-size: 0.8125rem;
-  padding: 8px 14px;
+  font-weight: 500;
 }
 
 .ui-boton-punteado:hover {
-  border-color: var(--texto);
-  color: var(--texto);
+  border-color: var(--c);
+  background: var(--c-tinte);
+  color: var(--c);
+}
+
+.ui-boton-icono,
+.ui-boton-plano {
+  min-height: 0;
+  padding: 7px;
+  border-radius: 10px;
 }
 
 .ui-boton-icono {
-  padding: 6px;
   color: var(--peligro);
 }
 
@@ -331,7 +510,6 @@ select.ui-entrada {
 }
 
 .ui-boton-plano {
-  padding: 6px;
   color: var(--texto-medio);
 }
 
@@ -343,39 +521,52 @@ select.ui-entrada {
 .ui-boton:disabled {
   opacity: 0.35;
   cursor: not-allowed;
+  transform: none;
 }
 
 /* ---------- Indicadores ---------- */
 
 .ui-indicadores {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 12px;
 }
 
 .ui-indicador {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: 14px 16px;
+  gap: 4px;
+  padding: 16px 18px;
   background: var(--superficie);
   border: 1px solid var(--borde);
-  border-radius: var(--radio);
+  border-radius: 20px;
 }
 
 .ui-indicador-etiqueta {
-  font-size: 0.75rem;
+  font-family: var(--f-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--texto-suave);
 }
 
 .ui-indicador-valor {
-  font-size: 1.375rem;
-  font-weight: 600;
-  line-height: 1.2;
+  font-family: var(--f-titulo);
+  font-size: 1.875rem;
+  font-stretch: 75%;
+  font-weight: 700;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+
+/* El dato principal de la pantalla: más grande y sobre el tinte de la categoría. */
+.ui-indicador-principal {
+  background: var(--c-tinte);
+  border-color: color-mix(in srgb, var(--c) 28%, var(--superficie));
 }
 
 .ui-indicador-principal .ui-indicador-valor {
-  font-size: 1.875rem;
+  font-size: 2.5rem;
 }
 
 .ui-indicador-detalle {
@@ -397,7 +588,7 @@ select.ui-entrada {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 12px 14px;
+  padding: 13px 16px;
   border-radius: var(--radio);
   font-size: 0.8125rem;
 }
@@ -442,7 +633,7 @@ select.ui-entrada {
 .ui-enlace {
   padding: 4px 6px;
   border: 0;
-  border-radius: 4px;
+  border-radius: 6px;
   background: none;
   font-size: 0.75rem;
   color: var(--texto-medio);
@@ -458,9 +649,33 @@ select.ui-entrada {
 /* ---------- Celular ---------- */
 
 @media (max-width: 640px) {
+  .ui-pagina {
+    padding: 14px 14px 24px;
+  }
+
   .ui-columnas,
   .ui-columnas-3 {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ui-encabezado {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .ui-encabezado-principal {
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .ui-mosaico {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+  }
+
+  .ui-tarjeta {
+    padding: 16px;
   }
 }
 

@@ -7,6 +7,7 @@ import {
   type TextareaHTMLAttributes,
   useId,
 } from 'react'
+import { useIdentidad } from './identidad'
 
 /** Une nombres de clase y descarta los vacíos. */
 export function unir(...clases: Array<string | false | undefined>): string {
@@ -45,12 +46,25 @@ interface EncabezadoProps {
   children?: ReactNode
 }
 
+/**
+ * El encabezado de una herramienta. El ícono y la categoría no se le pasan: los toma de
+ * la identidad que pone el sitio alrededor de cada herramienta.
+ */
 export function Encabezado({ titulo, descripcion, children }: EncabezadoProps) {
+  const identidad = useIdentidad()
   return (
     <header className="ui-encabezado">
-      <div>
-        <h1 className="ui-titulo">{titulo}</h1>
-        <p className="ui-descripcion">{descripcion}</p>
+      <div className="ui-encabezado-principal">
+        {identidad && (
+          <span className="ui-mosaico" aria-hidden>
+            <identidad.Icono size={30} strokeWidth={1.75} />
+          </span>
+        )}
+        <div>
+          {identidad && <span className="ui-chip">{identidad.categoria}</span>}
+          <h1 className="ui-titulo">{titulo}</h1>
+          <p className="ui-descripcion">{descripcion}</p>
+        </div>
       </div>
       {children && <div className="ui-acciones">{children}</div>}
     </header>
@@ -66,7 +80,7 @@ interface TarjetaProps {
   children: ReactNode
 }
 
-/** Caja blanca con borde. Es el contenedor base de todas las herramientas. */
+/** Caja con borde sobre el fondo de la página. Es el contenedor base de todas las herramientas. */
 export function Tarjeta({ titulo, icono, accion, className, children }: TarjetaProps) {
   return (
     <section className={unir('ui-tarjeta', className)}>

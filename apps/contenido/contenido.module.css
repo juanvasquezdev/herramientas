@@ -13,7 +13,7 @@
 }
 
 .idea {
-  background: #9a958a;
+  background: var(--marca-neutra);
 }
 
 .grabado {
@@ -25,7 +25,7 @@
 }
 
 .publicado {
-  background: #1c8a3a;
+  background: var(--marca-bien);
 }
 
 /* ---------- Calendario ---------- */
@@ -40,12 +40,11 @@
 
 .mes {
   margin: 0;
-  font-family: var(--serif);
-  font-size: 1.25rem;
-  font-weight: 400;
-}
-
-.mes::first-letter {
+  font-family: var(--f-titulo);
+  font-size: 1.5rem;
+  font-stretch: 72%;
+  font-weight: 700;
+  line-height: 1;
   text-transform: uppercase;
 }
 
@@ -61,7 +60,7 @@
   gap: 1px;
   background: var(--borde);
   border: 1px solid var(--borde);
-  border-radius: 4px;
+  border-radius: var(--radio);
   overflow: hidden;
 }
 
@@ -69,7 +68,8 @@
   padding: 6px 8px;
   background: var(--superficie-suave);
   font-size: 0.6875rem;
-  letter-spacing: 0.4px;
+  font-family: var(--f-mono);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--texto-suave);
 }
@@ -101,15 +101,16 @@
 }
 
 .hoy .numero {
-  background: var(--texto);
-  color: #fff;
+  background: var(--c);
+  font-weight: 600;
+  color: var(--sobre);
 }
 
 .mas {
   display: flex;
   padding: 3px;
   border: 0;
-  border-radius: 4px;
+  border-radius: 8px;
   background: none;
   color: var(--texto-suave);
   cursor: pointer;
@@ -123,8 +124,8 @@
 }
 
 .mas:hover {
-  background: var(--superficie-suave);
-  color: var(--texto);
+  background: var(--c-tinte);
+  color: var(--c);
 }
 
 .ficha {
@@ -133,9 +134,9 @@
   gap: 5px;
   width: 100%;
   margin-top: 2px;
-  padding: 3px 5px;
+  padding: 4px 6px;
   border: 0;
-  border-radius: 3px;
+  border-radius: 8px;
   background: var(--superficie-suave);
   font-size: 0.6875rem;
   text-align: left;
@@ -181,8 +182,9 @@
 
 .cabecera {
   margin-bottom: 8px;
-  font-size: 0.75rem;
-  letter-spacing: 0.4px;
+  font-size: 0.6875rem;
+  font-family: var(--f-mono);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--texto-suave);
 }
@@ -215,16 +217,17 @@
   gap: 8px;
   align-items: end;
   margin-bottom: 6px;
-  padding: 10px;
+  padding: 12px;
   background: var(--superficie-suave);
-  border-radius: 4px;
+  border-radius: var(--radio-chico);
 }
 
 .resultados span {
   display: block;
   margin-bottom: 2px;
   font-size: 0.6875rem;
-  letter-spacing: 0.4px;
+  font-family: var(--f-mono);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--texto-suave);
 }
