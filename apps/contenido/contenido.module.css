@@ -1,0 +1,349 @@
+.cuenta {
+  max-width: 360px;
+}
+
+/* ---------- Colores de estado. Siempre van junto al nombre del estado. ---------- */
+
+.punto {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--serie-apagada);
+}
+
+.idea {
+  background: #9a958a;
+}
+
+.grabado {
+  background: var(--serie-4);
+}
+
+.editado {
+  background: var(--serie-1);
+}
+
+.publicado {
+  background: #1c8a3a;
+}
+
+/* ---------- Calendario ---------- */
+
+.navegacion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.mes {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+
+.mes::first-letter {
+  text-transform: uppercase;
+}
+
+.flechas {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--borde);
+  border: 1px solid var(--borde);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.diaSemana {
+  padding: 6px 8px;
+  background: var(--superficie-suave);
+  font-size: 0.6875rem;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.dia,
+.fuera {
+  min-height: 92px;
+  padding: 4px;
+  background: var(--superficie);
+}
+
+.fuera {
+  background: var(--superficie-suave);
+}
+
+.diaCabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.numero {
+  padding: 1px 5px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--texto-medio);
+}
+
+.hoy .numero {
+  background: var(--texto);
+  color: #fff;
+}
+
+.mas {
+  display: flex;
+  padding: 3px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--texto-suave);
+  cursor: pointer;
+  opacity: 0;
+}
+
+/* El "+" aparece al pasar el cursor por el día o al llegar con teclado. */
+.dia:hover .mas,
+.mas:focus-visible {
+  opacity: 1;
+}
+
+.mas:hover {
+  background: var(--superficie-suave);
+  color: var(--texto);
+}
+
+.ficha {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  margin-top: 2px;
+  padding: 3px 5px;
+  border: 0;
+  border-radius: 3px;
+  background: var(--superficie-suave);
+  font-size: 0.6875rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ficha:hover {
+  background: var(--borde);
+}
+
+.fichaTexto {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+.leyenda li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---------- Lista ---------- */
+
+.cabecera,
+.fila {
+  display: grid;
+  grid-template-columns: 138px minmax(0, 1fr) 150px 116px 116px 124px 32px;
+  gap: 8px;
+  align-items: center;
+}
+
+.cabecera {
+  margin-bottom: 8px;
+  font-size: 0.75rem;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.fila {
+  margin-bottom: 8px;
+}
+
+.estado {
+  position: relative;
+}
+
+/* El punto de color va dentro del selector de estado, a la izquierda del texto. */
+.estado .punto {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.estado select {
+  padding-left: 24px;
+}
+
+.resultados {
+  grid-column: 2 / -1;
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: end;
+  margin-bottom: 6px;
+  padding: 10px;
+  background: var(--superficie-suave);
+  border-radius: 4px;
+}
+
+.resultados span {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 0.6875rem;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.resultados output {
+  min-width: 130px;
+  padding-bottom: 9px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-align: right;
+}
+
+.vacio {
+  margin: 0 0 12px;
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+}
+
+.nota {
+  margin: 0 0 12px;
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+.nota:last-child {
+  margin: 12px 0 0;
+}
+
+/* El valor de cada barra: el número arriba y el detalle debajo. */
+:global(.gr-barras-valor) small {
+  display: block;
+  font-size: 0.6875rem;
+  color: var(--texto-suave);
+}
+
+@media (max-width: 900px) {
+  .cabecera {
+    display: none;
+  }
+
+  /* Cada publicación pasa a ser un bloque. */
+  .fila {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) 32px;
+    grid-template-areas:
+      'fecha fecha quitar'
+      'titulo titulo titulo'
+      'tema formato formato'
+      'plataforma estado estado';
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .fecha {
+    grid-area: fecha;
+  }
+
+  .titulo {
+    grid-area: titulo;
+  }
+
+  .quitar {
+    grid-area: quitar;
+  }
+
+  .tema {
+    grid-area: tema;
+  }
+
+  .formato {
+    grid-area: formato;
+  }
+
+  .plataforma {
+    grid-area: plataforma;
+  }
+
+  .estado {
+    grid-area: estado;
+  }
+
+  .resultados {
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .resultados output {
+    grid-column: 1 / -1;
+    padding-bottom: 0;
+    text-align: left;
+  }
+}
+
+@media (max-width: 640px) {
+  .dia,
+  .fuera {
+    min-height: 56px;
+    padding: 2px;
+  }
+
+  /* En celular no cabe el título: cada publicación es un punto de color. */
+  .ficha {
+    display: inline-flex;
+    width: auto;
+    margin: 2px 1px 0;
+    padding: 5px;
+    background: none;
+  }
+
+  .fichaTexto {
+    display: none;
+  }
+
+  .mas {
+    opacity: 1;
+  }
+
+  .diaSemana {
+    padding: 4px 2px;
+    text-align: center;
+  }
+}
