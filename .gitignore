@@ -1,0 +1,14 @@
+node_modules
+dist
+coverage
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+.vercel
+
+# Herramientas que todavía no pasan al sitio y copias de las versiones viejas.
+# Se quedan en mi equipo hasta que estén pulidas.
+_pendientes/
+_archivo/
