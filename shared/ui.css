@@ -1,0 +1,196 @@
+/*
+  Estilos compartidos por todas las herramientas.
+  Regla: lo de aquí es global y lleva el prefijo ui-. Lo propio de cada herramienta va
+  en su archivo .module.css, que Vite aísla para que no se pisen entre ellas.
+*/
+
+:root {
+  --fondo: #f7f5f0;
+  --superficie: #ffffff;
+  --borde: #e5e1d8;
+  --borde-fuerte: #c9c3b5;
+  --texto: #1a1a1a;
+  --texto-medio: #4a4a4a;
+  --texto-suave: #6b6659;
+  --peligro: #a63d31;
+  --foco: #2f5fd0;
+
+  --serif: Georgia, 'Times New Roman', serif;
+  --sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --radio: 6px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--foco);
+  outline-offset: 2px;
+}
+
+/* ---------- Tarjeta ---------- */
+
+.ui-tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 18px;
+}
+
+.ui-tarjeta-titulo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 12px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--texto-medio);
+}
+
+/* ---------- Campos ---------- */
+
+.ui-campo {
+  display: block;
+}
+
+/* Dentro de una tarjeta los campos van apilados; fuera de ella los acomoda cada herramienta. */
+.ui-tarjeta > .ui-campo + .ui-campo {
+  margin-top: 10px;
+}
+
+.ui-etiqueta {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.75rem;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.ui-entrada {
+  width: 100%;
+  min-width: 0;
+  padding: 8px 10px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.ui-entrada::placeholder {
+  color: #9a958a;
+}
+
+textarea.ui-entrada {
+  min-height: 70px;
+  resize: vertical;
+}
+
+/* ---------- Botones ---------- */
+
+.ui-boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: none;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.ui-boton-primario {
+  background: var(--texto);
+  color: #fff;
+}
+
+.ui-boton-primario:hover {
+  background: #333;
+}
+
+.ui-boton-secundario {
+  background: var(--superficie);
+  border-color: var(--borde-fuerte);
+}
+
+.ui-boton-secundario:hover {
+  border-color: var(--texto);
+}
+
+.ui-boton-punteado {
+  border: 1px dashed var(--borde-fuerte);
+  color: var(--texto-medio);
+  font-size: 0.8125rem;
+  padding: 8px 14px;
+}
+
+.ui-boton-punteado:hover {
+  border-color: var(--texto);
+  color: var(--texto);
+}
+
+.ui-boton-icono {
+  padding: 6px;
+  color: var(--peligro);
+}
+
+.ui-boton-icono:hover {
+  background: #f6e9e7;
+}
+
+.ui-boton:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ---------- Impresión ---------- */
+
+/* .solo-impresion: no se ve en pantalla, sale en el papel. .no-impresion: al revés. */
+.solo-impresion {
+  display: none;
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  .solo-impresion {
+    display: block;
+  }
+
+  .no-impresion {
+    display: none !important;
+  }
+}
+
+@page {
+  margin: 18mm;
+}
