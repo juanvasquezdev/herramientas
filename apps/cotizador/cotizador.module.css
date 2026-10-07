@@ -1,0 +1,184 @@
+.pagina {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 28px 20px 72px;
+}
+
+.encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.titulo {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.625rem;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+.subtitulo {
+  max-width: 46ch;
+  margin: 4px 0 0;
+  font-size: 0.8125rem;
+  color: var(--texto-suave);
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.partes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.datos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.items {
+  margin-bottom: 20px;
+}
+
+.cabecera,
+.fila {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 76px 130px 130px 32px;
+  gap: 8px;
+  align-items: center;
+}
+
+.cabecera {
+  margin-bottom: 8px;
+  font-size: 0.75rem;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.fila {
+  margin-bottom: 8px;
+}
+
+/* Rótulo de cantidad y precio: solo se ve en celular, donde no hay cabecera. */
+.rotulo {
+  display: none;
+  margin-bottom: 2px;
+  font-size: 0.6875rem;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.derecha,
+.totalFila {
+  text-align: right;
+}
+
+.totalFila {
+  padding-right: 4px;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.totales {
+  width: min(100%, 300px);
+  margin: 18px 0 0 auto;
+  font-size: 0.875rem;
+}
+
+.totales > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0;
+}
+
+.totales dt,
+.totales dd {
+  margin: 0;
+}
+
+.totales dd {
+  font-variant-numeric: tabular-nums;
+}
+
+.impuesto {
+  width: 72px;
+  padding: 4px 6px;
+  text-align: right;
+}
+
+.totales > .granTotal {
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 2px solid var(--texto);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.aviso {
+  margin: 16px 0 0;
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+/* En celular cada ítem pasa a ser un bloque: descripción arriba, números abajo. */
+@media (max-width: 640px) {
+  .partes,
+  .datos {
+    grid-template-columns: 1fr;
+  }
+
+  .cabecera {
+    display: none;
+  }
+
+  .rotulo {
+    display: block;
+  }
+
+  .fila {
+    grid-template-columns: 1fr 1fr 32px;
+    grid-template-areas:
+      'descripcion descripcion quitar'
+      'cantidad precio .'
+      'total total .';
+    align-items: end;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .descripcion {
+    grid-area: descripcion;
+  }
+
+  .cantidad {
+    grid-area: cantidad;
+  }
+
+  .precio {
+    grid-area: precio;
+  }
+
+  .totalFila {
+    grid-area: total;
+  }
+
+  .quitar {
+    grid-area: quitar;
+  }
+}
