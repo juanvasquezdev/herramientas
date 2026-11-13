@@ -16,3 +16,6 @@ playwright-report
 # Se quedan en mi equipo hasta que estén pulidas.
 _pendientes/
 _archivo/
+
+# Reportes y capturas que deja Claude (no son parte del sitio).
+Claude outputs/

@@ -97,9 +97,10 @@ Dentro de cada herramienta el código se parte igual:
 - **El video y la cámara no salen del equipo.** La detección corre en el navegador con MediaPipe. Lo único que se descarga es el modelo, desde los servidores de Google, la primera vez.
 - **Biome en vez de ESLint y Prettier.** Hace las dos cosas con una sola configuración y ya funciona con TypeScript 7.
 - **Dos temas con las mismas variables.** Los colores viven en variables de CSS que se definen dos veces, una por tema. Ninguna herramienta sabe en qué tema está. El tema sigue al equipo hasta que la persona elige; un script mínimo en `index.html` lo pone antes de pintar, para que no se vea un destello. Lo que se imprime sale siempre en claro.
-- **Un color por categoría.** Negocio, deporte, contenido y experimentos tienen cada uno su color, y cada pantalla lo recibe en una sola variable (`--c`). Los botones, los indicadores y los gráficos de una serie lo usan sin saber cuál es. El contraste de texto se revisó en los dos temas.
+- **La base es la de Nudo y de todos los sistemas de H&J.** Blanco y negro puro (`#FAFAFA` y `#0A0A0A`) con grises neutros y sin color de acento. Las categorías ya no tienen color: se distinguen por su nombre y su ícono. Cada pantalla sigue recibiendo su color en `--c`, que ahora es la tinta, así que ninguna herramienta tuvo que cambiar. Los colores de estado (bien, alerta, mal) y los de los gráficos de varias series se quedan, porque dicen algo.
+- **Buscar y filtrar en el inicio.** El buscador ignora tildes y mayúsculas, y cada palabra puede estar en el nombre, el resumen o la categoría. La tecla `/` lleva al buscador y `Esc` lo borra. La búsqueda y la categoría quedan en la dirección (`?q=pdf&c=negocio`), así que se pueden compartir. El texto se copia a la dirección un momento después de escribir: si el campo leyera directo de la dirección, al escribir rápido se perderían letras.
 - **Cambiar de herramienta sin volver al inicio.** La barra de abajo está en todas las pantallas. El código de cada herramienta empieza a bajar cuando el cursor pasa por su ícono, así el cambio se siente inmediato. Al cambiar, la pantalla entra con una animación corta, que se apaga si el equipo pide menos movimiento.
-- **Las fuentes van dentro del sitio.** Archivo, Geist y Geist Mono se instalan como paquetes y se sirven desde el mismo dominio. No se le pide nada a otro servidor.
+- **Las fuentes van dentro del sitio.** Space Grotesk, Geist y Geist Mono se instalan como paquetes y se sirven desde el mismo dominio. No se le pide nada a otro servidor.
 
 ## Agregar una herramienta
 
@@ -114,7 +115,7 @@ Un cuidado con los nombres: dos archivos de la misma carpeta no pueden llamarse 
 
 ## Stack
 
-React 19, TypeScript, Vite, React Router, Vitest, Playwright y Biome. MediaPipe para la detección de postura y de gestos. Tipografías Archivo, Geist y Geist Mono. GitHub Actions corre tipos, lint, pruebas y build en Linux y en Windows, y las pruebas de punta a punta, en cada push a `main` y en cada pull request.
+React 19, TypeScript, Vite, React Router, Vitest, Playwright y Biome. MediaPipe para la detección de postura y de gestos. Tipografías Space Grotesk, Geist y Geist Mono. GitHub Actions corre tipos, lint, pruebas y build en Linux y en Windows, y las pruebas de punta a punta, en cada push a `main` y en cada pull request.
 
 ---
 
