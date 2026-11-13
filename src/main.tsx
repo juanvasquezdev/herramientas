@@ -2,9 +2,9 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router'
 import { App } from './App'
-// Las fuentes van dentro del sitio (no se piden a otro servidor). De Archivo se trae
-// el archivo que incluye el eje de ancho, que es el que permite los títulos condensados.
-import '@fontsource-variable/archivo/wdth.css'
+// Las fuentes van dentro del sitio (no se piden a otro servidor). Son las de todos los
+// sistemas de H&J: Space Grotesk para títulos, Geist para texto y Geist Mono para cifras.
+import '@fontsource-variable/space-grotesk'
 import '@fontsource-variable/geist'
 import '@fontsource-variable/geist-mono'
 import '../shared/ui.css'
