@@ -51,10 +51,8 @@
   min-height: 44px;
   font-family: var(--f-titulo);
   font-size: 1.25rem;
-  font-stretch: 75%;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: -0.03em;
   text-decoration: none;
   color: var(--texto);
 }
@@ -221,6 +219,147 @@
   color: var(--sobre);
 }
 
+/* ---------- Buscador y filtros del inicio ---------- */
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  margin-bottom: 10px;
+}
+
+.buscador {
+  position: relative;
+  flex: 1 1 280px;
+  max-width: 420px;
+}
+
+.buscador input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 44px 0 42px;
+  background: var(--superficie);
+  border: 1px solid var(--borde-campo);
+  border-radius: 12px;
+  font-size: 0.9375rem;
+}
+
+.buscador input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.lupa {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  color: var(--texto-suave);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.tecla,
+.limpiar {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+
+.tecla {
+  min-width: 24px;
+  padding: 2px 7px;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 6px;
+  font-family: var(--f-mono);
+  font-size: 0.75rem;
+  text-align: center;
+  color: var(--texto-suave);
+}
+
+.limpiar {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  color: var(--texto-suave);
+  cursor: pointer;
+}
+
+.limpiar:hover {
+  background: var(--superficie-suave);
+  color: var(--texto);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 14px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.chip:hover {
+  border-color: var(--borde-fuerte);
+}
+
+.chip[aria-pressed='true'] {
+  background: var(--texto);
+  border-color: var(--texto);
+  color: var(--sobre);
+}
+
+.chipCuenta {
+  font-family: var(--f-mono);
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+.conteo {
+  margin: 0 0 14px;
+  font-family: var(--f-mono);
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+.vacio {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  padding: 28px;
+  background: var(--superficie);
+  border: 1px dashed var(--borde-fuerte);
+  border-radius: var(--radio-grande);
+  color: var(--texto-medio);
+}
+
+.vacio p {
+  margin: 0;
+}
+
 /* ---------- Inicio y página de "no existe" ---------- */
 
 .inicio {
@@ -241,11 +380,10 @@
 .titular {
   margin: 0;
   font-family: var(--f-titulo);
-  font-size: clamp(3rem, 11vw, 6.5rem);
-  font-stretch: 62%;
-  font-weight: 800;
-  line-height: 0.86;
-  text-transform: uppercase;
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 0.9;
   text-wrap: balance;
 }
 
@@ -319,11 +457,10 @@
 
 .nombre {
   font-family: var(--f-titulo);
-  font-size: 1.5rem;
-  font-stretch: 72%;
-  font-weight: 700;
-  line-height: 1;
-  text-transform: uppercase;
+  font-size: 1.375rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
 }
 
 .resumen {
@@ -423,5 +560,12 @@
 
   .entra {
     animation: none;
+  }
+}
+
+/* En pantallas táctiles no hay tecla "/": la pista sobra. */
+@media (hover: none) {
+  .tecla {
+    display: none;
   }
 }
