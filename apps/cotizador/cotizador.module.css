@@ -84,7 +84,6 @@ input.impuesto {
 .totales > .granTotal dd {
   font-family: var(--f-titulo);
   font-size: 1.625rem;
-  font-stretch: 75%;
   line-height: 1.1;
 }
 

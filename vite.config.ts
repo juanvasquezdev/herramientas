@@ -10,6 +10,6 @@ export default defineConfig({
   test: {
     // Las pruebas son de lógica pura, así que no necesitan simular un navegador.
     environment: 'node',
-    include: ['apps/**/*.test.ts', 'shared/**/*.test.ts'],
+    include: ['apps/**/*.test.ts', 'shared/**/*.test.ts', 'src/**/*.test.ts'],
   },
 })

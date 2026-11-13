@@ -28,7 +28,6 @@
 .doc-marca {
   font-family: var(--f-titulo);
   font-size: 32px;
-  font-stretch: 70%;
   font-weight: 800;
   line-height: 1.05;
   text-transform: uppercase;
@@ -42,7 +41,6 @@
 .doc-tipo {
   font-family: var(--f-titulo);
   font-size: 22px;
-  font-stretch: 75%;
   font-weight: 700;
 }
 
@@ -169,7 +167,6 @@
   display: block;
   font-family: var(--f-titulo);
   font-size: 24px;
-  font-stretch: 75%;
 }
 
 .doc-cifra span {

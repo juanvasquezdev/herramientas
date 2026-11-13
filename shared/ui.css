@@ -9,26 +9,30 @@
 :root {
   color-scheme: light;
 
-  --fondo: #f3f5fa;
+  /* La base es la de Nudo y de todos los sistemas de H&J: blanco y negro puro, grises neutros. */
+  --fondo: #fafafa;
   --superficie: #ffffff;
-  --superficie-suave: #f5f6fa;
-  --borde: #e1e5ee;
-  --borde-fuerte: #c4cada;
+  --superficie-suave: #f5f5f5;
+  --borde: #e5e5e5;
+  --borde-fuerte: #bdbdbd;
   /* El borde de los campos lleva más contraste (3:1) para que el campo se distinga sin esfuerzo. */
-  --borde-campo: #878da1;
-  --texto: #171a26;
-  --texto-medio: #3f4558;
-  --texto-suave: #5b6174;
+  --borde-campo: #858585;
+  --texto: #0a0a0a;
+  --texto-medio: #404040;
+  --texto-suave: #525252;
   /* El color del texto que va encima de un fondo de color o de --texto. */
-  --sobre: #ffffff;
-  --foco: #2f5fd0;
-  --sombra: rgba(23, 26, 38, 0.1);
+  --sobre: #fafafa;
+  --foco: #0a0a0a;
+  --sombra: rgba(10, 10, 10, 0.1);
 
-  /* Un color por categoría. Cada pantalla toma el suyo en --c. */
-  --negocio: #4253e0;
-  --deporte: #0b7a53;
-  --contenido: #b3268a;
-  --experimentos: #a05c00;
+  /*
+    Sin color de acento: todas las categorías usan la tinta. La categoría se nota por su
+    nombre y su ícono, no por el color. Se dejan las variables para no tocar cada pantalla.
+  */
+  --negocio: var(--texto);
+  --deporte: var(--texto);
+  --contenido: var(--texto);
+  --experimentos: var(--texto);
 
   /* Estados: texto y fondo. Siempre van con ícono o palabra, nunca solo el color. */
   --bien: #1c6b2a;
@@ -37,8 +41,8 @@
   --alerta-fondo: #fff4dc;
   --mal: #a63d31;
   --mal-fondo: #fbecea;
-  --info: #24518f;
-  --info-fondo: #edf3fb;
+  --info: #404040;
+  --info-fondo: #f0f0f0;
   --peligro: var(--mal);
 
   /*
@@ -49,16 +53,16 @@
   --serie-2: #eb6834;
   --serie-3: #1baf7a;
   --serie-4: #eda100;
-  --serie-apagada: #cfd3de;
-  --marca-neutra: #8b90a0;
+  --serie-apagada: #d4d4d4;
+  --marca-neutra: #8a8a8a;
   --marca-bien: #1c8a3a;
-  --rejilla: #eceff5;
-  --eje: #c4cada;
+  --rejilla: #ededed;
+  --eje: #c7c7c7;
 
   /* El fondo de los visores de video y de cámara: oscuro en los dos temas. */
-  --escenario: #0c0d12;
+  --escenario: #0a0a0a;
 
-  --f-titulo: 'Archivo Variable', 'Arial Narrow', 'Helvetica Neue', sans-serif;
+  --f-titulo: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
   --f-texto: 'Geist Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --f-mono: 'Geist Mono Variable', ui-monospace, 'Cascadia Mono', Consolas, monospace;
 
@@ -75,23 +79,23 @@
   :root[data-tema='oscuro'] {
     color-scheme: dark;
 
-    --fondo: #12141c;
-    --superficie: #1b1e29;
-    --superficie-suave: #222634;
-    --borde: #2c3040;
-    --borde-fuerte: #444a5e;
-    --borde-campo: #6f7690;
-    --texto: #f1f2f7;
-    --texto-medio: #c9cddb;
-    --texto-suave: #a5aabb;
-    --sobre: #12141c;
-    --foco: #9db4ff;
-    --sombra: rgba(0, 0, 0, 0.45);
+    --fondo: #0a0a0a;
+    --superficie: #141414;
+    --superficie-suave: #1f1f1f;
+    --borde: #262626;
+    --borde-fuerte: #404040;
+    --borde-campo: #767676;
+    --texto: #fafafa;
+    --texto-medio: #d4d4d4;
+    --texto-suave: #a3a3a3;
+    --sobre: #0a0a0a;
+    --foco: #fafafa;
+    --sombra: rgba(0, 0, 0, 0.5);
 
-    --negocio: #96a2ff;
-    --deporte: #58d6a6;
-    --contenido: #f285d4;
-    --experimentos: #f2b450;
+    --negocio: var(--texto);
+    --deporte: var(--texto);
+    --contenido: var(--texto);
+    --experimentos: var(--texto);
 
     --bien: #7fdc95;
     --bien-fondo: #17301f;
@@ -99,18 +103,18 @@
     --alerta-fondo: #33290f;
     --mal: #ff9f93;
     --mal-fondo: #3a1c19;
-    --info: #9cc2ff;
-    --info-fondo: #172640;
+    --info: #d4d4d4;
+    --info-fondo: #1f1f1f;
 
     --serie-1: #3987e5;
     --serie-2: #d95926;
     --serie-3: #199e70;
     --serie-4: #c98500;
-    --serie-apagada: #3a3f52;
-    --marca-neutra: #7d8398;
+    --serie-apagada: #3d3d3d;
+    --marca-neutra: #8a8a8a;
     --marca-bien: #4fcf7a;
-    --rejilla: #262a38;
-    --eje: #444a5e;
+    --rejilla: #232323;
+    --eje: #404040;
   }
 }
 
@@ -258,10 +262,9 @@ select {
   margin: 6px 0 0;
   font-family: var(--f-titulo);
   font-size: clamp(1.875rem, 4.2vw, 2.625rem);
-  font-stretch: 68%;
-  font-weight: 800;
-  line-height: 0.95;
-  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1;
   text-wrap: balance;
 }
 
@@ -553,7 +556,6 @@ select.ui-entrada {
 .ui-indicador-valor {
   font-family: var(--f-titulo);
   font-size: 1.875rem;
-  font-stretch: 75%;
   font-weight: 700;
   line-height: 1.05;
   font-variant-numeric: tabular-nums;

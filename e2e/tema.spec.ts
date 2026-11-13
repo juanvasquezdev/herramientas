@@ -32,10 +32,10 @@ test.describe('con el equipo en tema oscuro', () => {
     const colorDelTexto = () => page.evaluate(() => getComputedStyle(document.body).color)
 
     // En pantalla, con tema oscuro, el texto es claro.
-    expect(await colorDelTexto()).toBe('rgb(241, 242, 247)')
+    expect(await colorDelTexto()).toBe('rgb(250, 250, 250)')
 
     // En el papel vuelve a ser oscuro sobre blanco.
     await page.emulateMedia({ media: 'print' })
-    expect(await colorDelTexto()).toBe('rgb(23, 26, 38)')
+    expect(await colorDelTexto()).toBe('rgb(10, 10, 10)')
   })
 })

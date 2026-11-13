@@ -68,3 +68,31 @@ test('una dirección que no existe ofrece volver al inicio', async ({ page }) =>
   await page.getByRole('link', { name: 'Volver al inicio' }).click()
   await expect(page.getByRole('heading', { level: 1, name: 'Herramientas' })).toBeVisible()
 })
+
+test('el buscador y los filtros del inicio encuentran una herramienta', async ({ page }) => {
+  await page.goto('/')
+  const contenido = page.getByRole('main')
+  // "/" lleva al buscador desde cualquier parte de la página.
+  await page.keyboard.press('/')
+  await expect(page.getByLabel('Buscar herramienta')).toBeFocused()
+  await page.keyboard.type('cotizacion')
+  await expect(contenido.getByRole('listitem')).toHaveCount(1)
+  await expect(contenido.getByRole('link', { name: 'Cotizador' })).toBeVisible()
+  await expect(page).toHaveURL(/\?q=cotizacion$/)
+
+  await page.keyboard.press('Escape')
+  await expect(contenido.getByRole('listitem')).toHaveCount(herramientas.length)
+
+  await page
+    .getByRole('group', { name: 'Filtrar por categoría' })
+    .getByRole('button', { name: /^Deporte/ })
+    .click()
+  await expect(page).toHaveURL(/\?c=deporte$/)
+  const deporte = herramientas.filter((h) => h.categoria === 'deporte')
+  await expect(contenido.getByRole('listitem')).toHaveCount(deporte.length)
+
+  await page.getByLabel('Buscar herramienta').fill('nada que coincida')
+  await expect(contenido.getByText(/Ninguna herramienta coincide/)).toBeVisible()
+  await contenido.getByRole('button', { name: 'Ver todas' }).click()
+  await expect(contenido.getByRole('listitem')).toHaveCount(herramientas.length)
+})
